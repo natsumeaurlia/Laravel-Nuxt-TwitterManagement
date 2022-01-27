@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Task extends Model
 {
@@ -17,6 +16,12 @@ class Task extends Model
         'account_id',
         'type',
         'execution_interval',
+        'keyword',
+        'start_time_period',
+        'end_time_period',
+        'max_execution',
+        'range_min_sleep_time',
+        'range_max_sleep_time',
         'is_enable',
     ];
 
@@ -27,11 +32,6 @@ class Task extends Model
     public function account(): BelongsTo
     {
         return $this->belongsTo(Account::class);
-    }
-
-    public function option(): HasOne
-    {
-        return $this->hasOne(Option::class);
     }
 
     public function taskLogs(): HasMany
