@@ -24,6 +24,6 @@ class AccountTransition extends Model
 
     public function account(): BelongsTo
     {
-        return $this->belongsTo(Account::class, 'account_id');
+        return $this->belongsTo(Account::class);
     }
 }
