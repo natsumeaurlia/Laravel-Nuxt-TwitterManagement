@@ -26,6 +26,13 @@ class Account extends Model
         'api_secret_key',
     ];
 
+    protected $hidden = [
+        'access_token',
+        'access_token_secret',
+        'api_key',
+        'api_secret_key',
+    ];
+
     protected $casts = [
         'id' => 'integer',
     ];
@@ -35,7 +42,7 @@ class Account extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function account_transitions(): HasMany
+    public function accountTransitions(): HasMany
     {
         return $this->hasMany(AccountTransition::class);
     }
