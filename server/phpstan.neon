@@ -10,11 +10,10 @@ parameters:
     level: 4
 
     ignoreErrors:
-        - '#Access to an undefined property App\\Models(.*)#'
         - '#Access to an undefined property App\\Http\\Resources(.*)#'
-        - '#PHPDoc tag @var#'
+        - '#PHPDoc tag#'
 
-    excludes_analyse:
+    excludePaths:
         - ./*/*/FileToBeExcluded.php
 
     checkMissingIterableValueType: false
