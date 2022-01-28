@@ -45,7 +45,7 @@ jobs:
         include:
           - laravel:  8.*
 
-    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
+    name: P${{ matrix.php-versions }} - Laravel${{ matrix.laravel }}
 
     steps:
       - uses: actions/checkout@v2
