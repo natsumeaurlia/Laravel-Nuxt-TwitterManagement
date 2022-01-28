@@ -1,0 +1,20 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    paths:
+        - app
+
+    # The level 8 is the highest level
+    level: 4
+
+    ignoreErrors:
+        - '#Access to an undefined property App\\Models(.*)#'
+        - '#Access to an undefined property App\\Http\\Resources(.*)#'
+        - '#PHPDoc tag @var#'
+
+    excludes_analyse:
+        - ./*/*/FileToBeExcluded.php
+
+    checkMissingIterableValueType: false

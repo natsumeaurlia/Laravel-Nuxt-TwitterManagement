@@ -2,7 +2,6 @@
 
 namespace App\UseCases\User;
 
-
 use App\Models\User;
 
 class StoreAction
