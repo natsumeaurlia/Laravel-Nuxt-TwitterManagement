@@ -92,6 +92,15 @@ jobs:
 
         run: php artisan migrate
 
+      - name: generate helper
+        env:
+          DB_CONNECTION: mysql
+          DB_DATABASE: db_test_laravel
+          DB_PORT: 3306
+          DB_USERNAME: root
+          DB_HOST: 127.0.0.1
+        run: php artisan ide-helper:generate & php artisan ide-helper:models -N
+
       # Code quality
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         # Set environment
@@ -118,4 +127,4 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./vendor/bin/phpstan analyse ./app --level=4 --error-format=raw --no-progress | reviewdog -reporter=github-pr-review -f=phpstan
+          ./vendor/bin/phpstan analyse --error-format=raw --no-progress | reviewdog -reporter=github-pr-review -f=phpstan
