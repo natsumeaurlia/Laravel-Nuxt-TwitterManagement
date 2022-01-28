@@ -81,6 +81,9 @@ jobs:
         if: matrix.dependency-stability == 'prefer-lowest'
         run: composer update --prefer-stable --prefer-lowest
 
+      - name: Dump Autoload
+        run: composer dump-autoload
+
       - name: Generate key
         run: php artisan key:generate
       - name: Directory Permissions
