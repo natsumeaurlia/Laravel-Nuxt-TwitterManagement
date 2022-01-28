@@ -118,4 +118,4 @@ jobs:
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./vendor/bin/phpstan analyse --error-format=raw --no-progress | reviewdog -reporter=github-pr-review -f=phpstan
+          ./vendor/bin/phpstan analyse ./app --level=4 --error-format=raw --no-progress | reviewdog -reporter=github-pr-review -f=phpstan
