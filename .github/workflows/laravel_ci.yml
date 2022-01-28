@@ -62,16 +62,9 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-      - name: Cache PHP dependencies
-        uses: actions/cache@v2
-        id: vendor-cache
-        with:
-          path: vendor
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install Dependencies
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: composer install
 
       - name: Update Dependencies with latest stable
