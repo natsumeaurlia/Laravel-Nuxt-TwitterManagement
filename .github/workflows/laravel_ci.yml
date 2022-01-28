@@ -48,6 +48,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+      - uses: reviewdog/action-setup@v1
+        with:
+            reviewdog_version: latest
       - name: Get Composer Cache Directory 2
         id: composer-cache
         run: |
@@ -108,9 +111,15 @@ jobs:
         run: vendor/bin/phpunit ./tests
 
       - name: Execute Code Sniffer via phpcs
+        shell: sh
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          vendor/bin/phpcs --standard=PSR12 app
+          vendor/bin/phpcs --standard=PSR12 app --report=emacs | reviewdog -reporter=github-pr-review -efm='%f:%l:%c:%m'
 
       - name: Execute Code Static Analysis (PHP Stan + Larastan)
+        shell: sh
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          vendor/bin/phpstan analyse app -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
+          ./vendor/bin/phpstan analyse --error-format=raw --no-progress | reviewdog -reporter=github-pr-review -f=phpstan
