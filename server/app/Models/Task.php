@@ -38,5 +38,4 @@ class Task extends Model
     {
         return $this->hasMany(TaskLog::class);
     }
-
 }
