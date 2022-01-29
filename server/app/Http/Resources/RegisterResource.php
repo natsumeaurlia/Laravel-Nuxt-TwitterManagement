@@ -23,6 +23,6 @@ class RegisterResource extends JsonResource
 
     public function withResponse($request, $response)
     {
-        return $response->setStatusCode(201);
+        $response->setStatusCode(201);
     }
 }
