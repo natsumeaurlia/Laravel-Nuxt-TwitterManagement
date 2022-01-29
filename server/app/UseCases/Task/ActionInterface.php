@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UseCases\Twitter;
+namespace App\UseCases\Task;
 
 use App\Entities\Twitter\Tweet;
 
