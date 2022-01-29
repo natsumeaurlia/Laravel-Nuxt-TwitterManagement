@@ -20,4 +20,9 @@ class RegisterResource extends JsonResource
             'created_at' => $this->created_at
         ];
     }
+
+    public function withResponse($request, $response)
+    {
+        return $response->setStatusCode(201);
+    }
 }
