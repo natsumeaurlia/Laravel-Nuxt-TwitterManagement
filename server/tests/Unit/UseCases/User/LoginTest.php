@@ -3,12 +3,12 @@
 namespace Tests\Unit\UseCases\User;
 
 use App\Models\User;
-use App\UseCases\User\LoginAction;
+use App\UseCases\User\Login;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class LoginActionTest extends TestCase
+class LoginTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
@@ -18,7 +18,7 @@ class LoginActionTest extends TestCase
         $password = 'password';
         $user = User::factory()->create(['password' => $password]);
 
-        $usecase = resolve(LoginAction::class);
+        $usecase = resolve(Login::class);
         $result = $usecase->handle($user->email, $password);
         $this->assertNotNull($result);
         $this->assertTrue($user->is($result));
@@ -29,7 +29,7 @@ class LoginActionTest extends TestCase
     {
         $user = User::factory()->create(['password' => 'password']);
 
-        $usecase = resolve(LoginAction::class);
+        $usecase = resolve(Login::class);
         $result = $usecase->handle($user->email, 'missing');
         $this->assertNull($result);
     }

@@ -3,7 +3,7 @@
 namespace Tests\Feature\Controllers\Api;
 
 use App\Models\User;
-use App\UseCases\User\LoginAction;
+use App\UseCases\User\Login;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -28,7 +28,7 @@ class LoginControllerTest extends TestCase
 
     public function test_failed_login()
     {
-        $this->mock(LoginAction::class, function ($mock) {
+        $this->mock(Login::class, function ($mock) {
             $mock->shouldReceive('handle')->once()->andReturn(null);
         });
         $password = 'password';
