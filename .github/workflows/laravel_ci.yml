@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - 'server/**'
+      - '.github/**'
     branches:
       - master
       - develop
@@ -24,7 +25,9 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: db_test_laravel
+          MYSQL_DATABASE: laravel
+          MYSQL_USER: sail
+          MYSQL_PASSWORD: password
         ## map the "external" 33306 port with the "internal" 3306
         ports:
           - 3306:3306
@@ -63,7 +66,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
       - name: Install Dependencies
         run: composer install
 
@@ -84,20 +87,12 @@ jobs:
       - name: Run Migrations
         # Set environment
         env:
-          DB_CONNECTION: mysql
-          DB_DATABASE: db_test_laravel
-          DB_PORT: 3306
-          DB_USERNAME: root
           DB_HOST: 127.0.0.1
 
         run: php artisan migrate
 
       - name: generate helper
         env:
-          DB_CONNECTION: mysql
-          DB_DATABASE: db_test_laravel
-          DB_PORT: 3306
-          DB_USERNAME: root
           DB_HOST: 127.0.0.1
         run: php artisan ide-helper:generate & php artisan ide-helper:models -N
 
@@ -105,13 +100,7 @@ jobs:
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         # Set environment
         env:
-          # ローカル環境でtest行う用にenv.testingが存在しており、設定値を上書きしないといけない
-          DB_CONNECTION: mysql
-          DB_DATABASE: db_test_laravel
-          DB_PORT: 3306
-          DB_USERNAME: root
           DB_HOST: 127.0.0.1
-          DB_PASSWORD: ''
 
         run: vendor/bin/phpunit ./tests
 
