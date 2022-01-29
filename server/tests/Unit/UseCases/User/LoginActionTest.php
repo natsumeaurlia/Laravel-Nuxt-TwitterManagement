@@ -27,11 +27,10 @@ class LoginActionTest extends TestCase
 
     public function test_failed_login_missing_credentials()
     {
-        $password = 'password';
-        $user = User::factory()->create(['password' => 'missing']);
+        $user = User::factory()->create(['password' => 'password']);
 
         $usecase = resolve(LoginAction::class);
-        $result = $usecase->handle($user->email, $password);
+        $result = $usecase->handle($user->email, 'missing');
         $this->assertNull($result);
     }
 }
