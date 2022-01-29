@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - 'server/**'
+      - '.github/**'
     branches:
       - master
       - develop
