@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RegisterResource extends JsonResource
+class LoginResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,6 @@ class RegisterResource extends JsonResource
         return [
             'name' => $this->name,
             'email' => $this->email,
-            'created_at' => $this->created_at
         ];
-    }
-
-    public function withResponse($request, $response)
-    {
-        $response->setStatusCode(201);
     }
 }
