@@ -2,10 +2,12 @@
 
 namespace App\Entities\Twitter;
 
+use Natsumeaurlia\Reflection\PropertyReflector;
+
 /**
  * @see https://developer.twitter.com/en/docs/twitter-api/v1/data-dictionary/object-model/tweet
  */
-final class Tweet
+final class Tweet extends PropertyReflector
 {
     protected $created_at;
     protected $id;
@@ -20,7 +22,7 @@ final class Tweet
     protected $in_reply_to_user_id;
     protected $in_reply_to_user_id_str;
     protected $in_reply_to_screen_name;
-    protected $user;
+    protected User $user;
     protected $geo;
     protected $coordinates;
     protected $place;
