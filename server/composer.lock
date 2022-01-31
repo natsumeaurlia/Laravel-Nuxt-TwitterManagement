@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17034b6e769df1c100916c99306beecb",
+    "content-hash": "28104ece9daad5310bab4545fbbb4ec6",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2962,24 +2962,24 @@
         },
         {
             "name": "natsumeaurlia/auto-property-reflection",
-            "version": "1.0",
+            "version": "1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/natsumeaurlia/auto-relection-property.git",
-                "reference": "135f42cfe48c528a60cdd36298d538d56e52d73f"
+                "reference": "2aa01b8c914b2a2da33fddad6ff5be625d22e268"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/natsumeaurlia/auto-relection-property/zipball/135f42cfe48c528a60cdd36298d538d56e52d73f",
-                "reference": "135f42cfe48c528a60cdd36298d538d56e52d73f",
+                "url": "https://api.github.com/repos/natsumeaurlia/auto-relection-property/zipball/2aa01b8c914b2a2da33fddad6ff5be625d22e268",
+                "reference": "2aa01b8c914b2a2da33fddad6ff5be625d22e268",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=7.1"
+                "php": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=7.0"
+                "phpunit/phpunit": "^8.3 || ^9.1"
             },
             "type": "library",
             "autoload": {
@@ -3000,9 +3000,9 @@
             ],
             "support": {
                 "issues": "https://github.com/natsumeaurlia/auto-relection-property/issues",
-                "source": "https://github.com/natsumeaurlia/auto-relection-property/tree/1.0"
+                "source": "https://github.com/natsumeaurlia/auto-relection-property/tree/1.1"
             },
-            "time": "2022-01-30T18:57:22+00:00"
+            "time": "2022-01-31T16:52:33+00:00"
         },
         {
             "name": "nesbot/carbon",
