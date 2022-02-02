@@ -11,6 +11,7 @@ parameters:
 
     ignoreErrors:
         - '#Access to an undefined property App\\Http\\Resources(.*)#'
+        - '#Access to protected property App\\Entities\\Twitter(.*)#'
         - '#PHPDoc tag#'
 
     excludePaths:

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c56e592941ae9b86e6963ce50c3c25c",
+    "content-hash": "23919a1c7ec5e8b891963eb05926dc52",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2959,6 +2959,50 @@
                 "source": "https://github.com/jmespath/jmespath.php/tree/2.6.1"
             },
             "time": "2021-06-14T00:11:39+00:00"
+        },
+        {
+            "name": "natsumeaurlia/auto-property-reflection",
+            "version": "1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/natsumeaurlia/auto-relection-property.git",
+                "reference": "a537d04aa218b2a96f78a11fda83a0aa6589a998"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/natsumeaurlia/auto-relection-property/zipball/a537d04aa218b2a96f78a11fda83a0aa6589a998",
+                "reference": "a537d04aa218b2a96f78a11fda83a0aa6589a998",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.3 || ^9.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Natsumeaurlia\\Reflection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Automatically reflect properties.",
+            "keywords": [
+                "api",
+                "entity",
+                "reflecction",
+                "utility"
+            ],
+            "support": {
+                "issues": "https://github.com/natsumeaurlia/auto-relection-property/issues",
+                "source": "https://github.com/natsumeaurlia/auto-relection-property/tree/1.2"
+            },
+            "time": "2022-01-31T17:45:32+00:00"
         },
         {
             "name": "nesbot/carbon",

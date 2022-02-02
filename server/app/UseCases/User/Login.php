@@ -5,7 +5,7 @@ namespace App\UseCases\User;
 use Illuminate\Auth\AuthManager;
 use App\Models\User;
 
-class LoginAction
+class Login
 {
     protected $guard;
 

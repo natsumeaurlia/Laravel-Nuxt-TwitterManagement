@@ -4,7 +4,7 @@ namespace App\UseCases\User;
 
 use App\Models\User;
 
-class StoreAction
+class Store
 {
     protected User $model;
 
