@@ -6,7 +6,7 @@ use App\Entities\Twitter\Tweet;
 use App\Entities\Twitter\User;
 use Atymic\Twitter\ApiV1\Service\Twitter;
 use Illuminate\Support\Collection;
-use \RuntimeException;
+use RuntimeException;
 
 class TwitterApiService
 {

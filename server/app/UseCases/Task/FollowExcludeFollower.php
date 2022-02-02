@@ -5,7 +5,6 @@ namespace App\UseCases\Task;
 use App\Entities\Twitter\Tweet;
 use App\Services\TwitterApiService;
 
-
 class FollowExcludeFollower implements ActionInterface
 {
     protected TwitterApiService $service;

@@ -10,7 +10,7 @@ use Atymic\Twitter\Exception\Request\ForbiddenRequestException;
 use Illuminate\Support\Collection;
 use Mockery\MockInterface;
 use Tests\TestCase;
-use \RuntimeException;
+use RuntimeException;
 
 class TwitterApiServiceTest extends TestCase
 {
