@@ -2,11 +2,17 @@
 
 namespace App\Services;
 
+use App\Entities\Twitter\Tweet;
+use App\Entities\Twitter\User;
 use Atymic\Twitter\ApiV1\Service\Twitter;
+use Illuminate\Support\Collection;
 use \RuntimeException;
 
 class TwitterApiService
 {
+    public const SEARCH_RESULT_TYPE = ['popular', 'recent', 'mixed'];
+    private const SEARCH_DEFAULT_RESULT_TYPE = 'mixed';
+
     private Twitter $twitter;
 
     public function __construct(Twitter $twitter)
@@ -18,18 +24,18 @@ class TwitterApiService
      * ユーザーの取得
      * limit 900 / 15min
      *
-     * @param string|null $screen_name
-     * @return \stdClass $user
+     * @param string $screenName
+     * @return User
      */
-    public function getUser(string $screen_name = null)
+    public function getUser(string $screenName): ?User
     {
         try {
-            $screen_name = str_replace('@', '', $screen_name);
-            $user = $this->twitter->getUsers(['screen_name' => $screen_name]);
+            $screenName = str_replace('@', '', $screenName);
+            $user = $this->twitter->getUsers(['screen_name' => $screenName]);
         } catch (RuntimeException $e) {
             return null;
         }
-        return $user;
+        return new User($user);
     }
 
     /**
@@ -38,17 +44,22 @@ class TwitterApiService
      *
      * @param string $keyword
      * @param int $count
-     * @return array
+     * @param string $result_type
+     * @return Collection
      */
-    public function getTweets(string $keyword, int $count)
+    public function getTweets(string $keyword, int $count = 5, string $result_type = ''): Collection
     {
+        if (!in_array($result_type, self::SEARCH_RESULT_TYPE)) {
+            $result_type = self::SEARCH_DEFAULT_RESULT_TYPE;
+        }
         try {
-            $tweets = $this->twitter->getSearch(['q' => $keyword, 'count' => $count, 'popular' => 'mixed']);
+            $result = $this->twitter->getSearch(['q' => $keyword, 'count' => $count, 'popular' => $result_type]);
+            $tweets = collect($result->statuses)->transform(fn($i) => new Tweet($i));
         } catch (RuntimeException $e) {
             logger()->error('Tweetの取得に失敗しました:' . $e->getMessage());
-            return null;
+            return collect();
         }
-        return $tweets->statuses;
+        return $tweets;
     }
 
     /**
@@ -56,8 +67,9 @@ class TwitterApiService
      * limit 1000 / 24h
      *
      * @param int $tweetId
+     * @return bool;
      */
-    public function postFavorite(int $tweetId)
+    public function postFavorite(int $tweetId): bool
     {
         try {
             $result = $this->twitter->postFavorite(['id' => $tweetId]);
@@ -65,7 +77,7 @@ class TwitterApiService
             logger()->error('いいねに失敗しました:' . $e->getMessage());
             return false;
         }
-        return $result;
+        return (bool)$result;
     }
 
     /**
@@ -73,8 +85,9 @@ class TwitterApiService
      * limit 1000 / 24h
      *
      * @param int $twitterUserId
+     * @return bool
      */
-    public function postFollow(int $twitterUserId)
+    public function postFollow(int $twitterUserId): bool
     {
         try {
             $result = $this->twitter->postFollow(['user_id' => $twitterUserId]);
@@ -82,7 +95,7 @@ class TwitterApiService
             logger()->error('フォローに失敗しました:' . $e->getMessage());
             return false;
         }
-        return $result;
+        return (bool)$result;
     }
 
     /**
@@ -90,8 +103,9 @@ class TwitterApiService
      * limit 300 / 3h
      *
      * @param int $tweetId
+     * @return bool
      */
-    public function postRetweet($tweetId)
+    public function postRetweet(int $tweetId): bool
     {
         try {
             $result = $this->twitter->postRt($tweetId);
@@ -99,24 +113,6 @@ class TwitterApiService
             logger()->error('RTに失敗しました:' . $e->getMessage());
             return false;
         }
-        return $result;
-    }
-
-    /**
-     * 対象アカウントのファボを取得
-     * limit 75 / 15min
-     *
-     * @param int $tweetId
-     * @param int $count
-     */
-    public function getFavorites($twitterUserId, int $count)
-    {
-        try {
-            $result = $this->twitter->getFavorites(['id' => $twitterUserId, 'max' => $count, 'include_entities' => 0]);
-        } catch (RuntimeException $e) {
-            logger()->error('いいねの取得に失敗しました:' . $e->getMessage());
-            return false;
-        }
-        return $result;
+        return (bool)$result;
     }
 }
