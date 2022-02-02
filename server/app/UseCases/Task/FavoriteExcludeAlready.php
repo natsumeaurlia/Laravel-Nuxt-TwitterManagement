@@ -7,7 +7,7 @@ use App\Services\TwitterApiService;
 
 class FavoriteExcludeAlready implements ActionInterface
 {
-    protected $service;
+    protected TwitterApiService $service;
 
     public function __construct(TwitterApiService $service)
     {
@@ -22,7 +22,7 @@ class FavoriteExcludeAlready implements ActionInterface
         return $this->service->postFavorite($tweet->id);
     }
 
-    protected function exclude(Tweet $tweet)
+    protected function exclude(Tweet $tweet): bool
     {
         return $tweet->favorited;
     }

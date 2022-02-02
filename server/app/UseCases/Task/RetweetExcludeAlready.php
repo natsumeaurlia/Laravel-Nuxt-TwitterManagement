@@ -7,7 +7,7 @@ use App\Services\TwitterApiService;
 
 class RetweetExcludeAlready implements ActionInterface
 {
-    protected $service;
+    protected TwitterApiService $service;
 
     public function __construct(TwitterApiService $service)
     {
@@ -22,7 +22,7 @@ class RetweetExcludeAlready implements ActionInterface
         return $this->service->postRetweet($tweet->id);
     }
 
-    protected function exclude(Tweet $tweet)
+    protected function exclude(Tweet $tweet): bool
     {
         return $tweet->retweeted;
     }

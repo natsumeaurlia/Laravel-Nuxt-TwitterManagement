@@ -8,7 +8,7 @@ use App\Services\TwitterApiService;
 
 class FollowExcludeFollower implements ActionInterface
 {
-    protected $service;
+    protected TwitterApiService $service;
 
     public function __construct(TwitterApiService $service)
     {
@@ -23,7 +23,7 @@ class FollowExcludeFollower implements ActionInterface
         return $this->service->postFollow($tweet->user->id);
     }
 
-    protected function exclude($tweet)
+    protected function exclude($tweet): bool
     {
         return $tweet->user ? $tweet->user->following : false;
     }
