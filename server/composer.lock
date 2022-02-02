@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "28104ece9daad5310bab4545fbbb4ec6",
+    "content-hash": "23919a1c7ec5e8b891963eb05926dc52",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2962,16 +2962,16 @@
         },
         {
             "name": "natsumeaurlia/auto-property-reflection",
-            "version": "1.1",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/natsumeaurlia/auto-relection-property.git",
-                "reference": "2aa01b8c914b2a2da33fddad6ff5be625d22e268"
+                "reference": "a537d04aa218b2a96f78a11fda83a0aa6589a998"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/natsumeaurlia/auto-relection-property/zipball/2aa01b8c914b2a2da33fddad6ff5be625d22e268",
-                "reference": "2aa01b8c914b2a2da33fddad6ff5be625d22e268",
+                "url": "https://api.github.com/repos/natsumeaurlia/auto-relection-property/zipball/a537d04aa218b2a96f78a11fda83a0aa6589a998",
+                "reference": "a537d04aa218b2a96f78a11fda83a0aa6589a998",
                 "shasum": ""
             },
             "require": {
@@ -3000,9 +3000,9 @@
             ],
             "support": {
                 "issues": "https://github.com/natsumeaurlia/auto-relection-property/issues",
-                "source": "https://github.com/natsumeaurlia/auto-relection-property/tree/1.1"
+                "source": "https://github.com/natsumeaurlia/auto-relection-property/tree/1.2"
             },
-            "time": "2022-01-31T16:52:33+00:00"
+            "time": "2022-01-31T17:45:32+00:00"
         },
         {
             "name": "nesbot/carbon",
