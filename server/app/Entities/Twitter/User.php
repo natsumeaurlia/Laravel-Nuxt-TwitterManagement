@@ -2,25 +2,26 @@
 
 namespace App\Entities\Twitter;
 
+use Carbon\Carbon;
 use Natsumeaurlia\Reflection\PropertyReflector;
 
 class User extends PropertyReflector
 {
-    protected $id;
-    protected $id_str;
-    protected $name;
-    protected $screen_name;
+    protected int $id;
+    protected string $id_str;
+    protected string $name;
+    protected string $screen_name;
     protected $location;
     protected $profile_location;
-    protected $description;
-    protected $url;
+    protected string $description;
+    protected string $url;
     protected $entities;
     protected $protected;
-    protected $followers_count;
-    protected $friends_count;
-    protected $listed_count;
-    protected $created_at;
-    protected $favourites_count;
+    protected int $followers_count;
+    protected int $friends_count;
+    protected int $listed_count;
+    protected Carbon $created_at;
+    protected int $favourites_count;
     protected $utc_offset;
     protected $time_zone;
     protected $geo_enabled;

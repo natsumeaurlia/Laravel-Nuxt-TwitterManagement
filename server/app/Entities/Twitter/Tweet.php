@@ -2,6 +2,7 @@
 
 namespace App\Entities\Twitter;
 
+use Carbon\Carbon;
 use Natsumeaurlia\Reflection\PropertyReflector;
 
 /**
@@ -9,11 +10,11 @@ use Natsumeaurlia\Reflection\PropertyReflector;
  */
 final class Tweet extends PropertyReflector
 {
-    protected $created_at;
-    protected $id;
-    protected $id_str;
-    protected $text;
-    protected $truncated;
+    protected Carbon $created_at;
+    protected int $id;
+    protected string $id_str;
+    protected string $text;
+    protected bool $truncated;
     protected $entities;
     protected $extended_entities;
     protected $source;
@@ -28,13 +29,13 @@ final class Tweet extends PropertyReflector
     protected $place;
     protected $contributors;
     protected $is_quote_status;
-    protected $retweet_count;
-    protected $favorite_count;
-    protected $favorited;
-    protected $retweeted;
+    protected int $retweet_count;
+    protected int $favorite_count;
+    protected bool $favorited;
+    protected bool $retweeted;
     protected $possibly_sensitive;
     protected $possibly_sensitive_appealable;
-    protected $lang;
+    protected string $lang;
 
     public function __get($key)
     {
