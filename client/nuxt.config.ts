@@ -18,6 +18,7 @@ export default defineNuxtConfig({
         shim: false,
     },
     css: ["vuetify/styles"],
+    ssr: false,
     vite: {
         plugins: [
             vuetify(),
@@ -47,4 +48,10 @@ export default defineNuxtConfig({
             "process.env.DEBUG": "false",
         },
     },
+    components: {
+        dirs: [
+            '~/components',
+            '~/components/common'
+        ]
+    }
 });
