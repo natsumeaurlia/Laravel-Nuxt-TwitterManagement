@@ -40,6 +40,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -63,5 +65,28 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  axios: {
+    proxy: true,
+    credentials: true,
+    baseUrl: process.env.API_BASE_URL || 'http://localhost',
+  },
+  redirect: {
+    login: '/login',
+    logout: '/',
+  },
+  auth: {
+    strategies: {
+      sanctum: {
+        provider: 'laravel/sanctum',
+        url: process.env.API_BASE_URL || 'http://localhost',
+        endpoints: {
+          login: {
+            url: '/api/v1/auth/login',
+            method: 'post'
+          },
+        }
+      }
+    }
   }
 }

@@ -12,11 +12,12 @@
       <div style="max-width:344px" class="mx-auto">
         <div class="pt-6">
           <div>
-            <input-email />
-            <input-password />
+            <input-email v-model="form.email" />
+            <input-password v-model="form.password"/>
           </div>
           <div class="login-btn pb-8">
             <v-btn
+                @click="login"
                 class="fill-width caption"
                 color="#FFCB00"
                 depressed
@@ -38,7 +39,32 @@
 </template>
 
 <script lang="ts">
+import InputEmail from "~/components/InputEmail.vue";
+import InputPassword from "~/components/InputPassword.vue";
+import { defineComponent } from '@vue/composition-api'
+export default defineComponent({
+  components: { InputPassword , InputEmail },
+  data() {
+    return {
+      form: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    async login() {
+      try {
+        const response = await this.$auth.loginWith('sanctum', {
+          data: this.form
+        })
+        console.log(response)
+      } catch (err) {
 
+      }
+    }
+  }
+})
 
 </script>
 

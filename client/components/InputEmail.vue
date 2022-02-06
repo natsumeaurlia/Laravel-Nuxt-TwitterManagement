@@ -1,7 +1,7 @@
 <template>
   <v-text-field
-    v-model="email"
-    :rules="[emailRules.required, emailRules.regex]"
+    :value="email"
+    @input="$emit('input', $event)"
     autofocus
     dense
     :height="height"
@@ -11,29 +11,33 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "@vue/composition-api";
+
+export default defineComponent({
   name: "InputEmail",
   props: {
     height: {
       type: Number,
       default: 48
+    },
+    email: {
+      type: String,
     }
   },
   data() {
     return {
-      email: null,
-      emailRules: {
-        required: (value: string | boolean) =>
-          !!value || 'メールアドレスは必須です',
-        regex: (value: any) =>
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-            value
-          ) || 'メールアドレスの形式が違います'
-      }
+      // emailRules: {
+      //   required: (value: string | boolean) =>
+      //     !!value || 'メールアドレスは必須です',
+      //   regex: (value: any) =>
+      //     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      //       value
+      //     ) || 'メールアドレスの形式が違います'
+      // }
     }
   }
 
-}
+})
 </script>
 
 <style scoped>

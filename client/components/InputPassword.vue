@@ -1,8 +1,8 @@
 <template>
   <v-text-field
-    v-model="password"
+    :value="password"
+    @input="$emit('input', $event)"
     :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
-    :rules="[passwordRules.required, passwordRules.regex]"
     :type="passwordShow ? 'text' : 'password'"
     dense
     :height="height"
@@ -14,17 +14,20 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from '@vue/composition-api'
+export default defineComponent({
   name: "InputPassword",
   props: {
     height: {
       type: Number,
       default: 48
+    },
+    password: {
+      type: String
     }
   },
   data() {
     return {
-      password: null,
       passwordShow: false,
       passwordRules: {
         required: (value: string | boolean) =>
@@ -35,7 +38,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style scoped>
