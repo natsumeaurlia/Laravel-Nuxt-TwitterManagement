@@ -15,7 +15,7 @@
             <input-email v-model="form.email" />
             <input-password v-model="form.password"/>
           </div>
-          <div class="login-btn pb-8">
+          <div class="pb-8">
             <v-btn
                 @click="login"
                 class="fill-width caption"
@@ -39,8 +39,8 @@
 </template>
 
 <script lang="ts">
-import InputEmail from "~/components/InputEmail.vue";
-import InputPassword from "~/components/InputPassword.vue";
+import InputEmail from "~/components/input-email.vue";
+import InputPassword from "~/components/input-password.vue";
 import { defineComponent } from '@vue/composition-api'
 export default defineComponent({
   components: { InputPassword , InputEmail },
