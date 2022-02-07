@@ -41,7 +41,8 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/composition-api'
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

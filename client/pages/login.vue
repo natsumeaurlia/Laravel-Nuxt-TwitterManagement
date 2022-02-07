@@ -41,7 +41,7 @@
 <script lang="ts">
 import InputEmail from "~/components/input-email.vue";
 import InputPassword from "~/components/input-password.vue";
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
 export default defineComponent({
   components: { InputPassword , InputEmail },
   data() {
