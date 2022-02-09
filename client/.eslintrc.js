@@ -12,6 +12,7 @@ module.exports = {
   plugins: [],
   // add your custom rules here
   rules: {
-    "object-curly-spacing": "always"
+    "object-curly-spacing": ["error", "always"],
+    "multi-word-component-names": 0
   }
 };
