@@ -23,6 +23,9 @@ export default {
   css: [
   ],
 
+
+  loading: '~/components/loading-spinner.vue',
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/repository.ts'
