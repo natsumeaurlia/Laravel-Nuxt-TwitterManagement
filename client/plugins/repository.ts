@@ -1,11 +1,8 @@
 import { Inject, NuxtApp } from "@nuxt/types/app";
-
-import { apiRepositoryFactory, Repositories } from "../composables/repositoryFactory";
+import {　UserRepository　} from "~/repositories/userRepository";
 
 export default ({ app }: { app: NuxtApp }, inject: Inject) => {
-  const repositories = (name: keyof Repositories) => {
-    return new (apiRepositoryFactory.get(name))(app.$axios);
-  };
+  const userRepository = new UserRepository(app.$axios);
 
-  inject("repositories", repositories);
+  inject("userRepository", userRepository);
 }
