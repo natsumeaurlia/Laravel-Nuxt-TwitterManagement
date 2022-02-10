@@ -23,8 +23,12 @@ export default {
   css: [
   ],
 
+
+  loading: '~/components/loading-spinner.vue',
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/repository.ts'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -36,12 +40,13 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/composition-api/module'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -67,7 +72,6 @@ export default {
   build: {
   },
   axios: {
-    proxy: true,
     credentials: true,
     baseUrl: process.env.API_BASE_URL || 'http://localhost',
   },

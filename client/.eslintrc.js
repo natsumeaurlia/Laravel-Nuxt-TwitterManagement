@@ -5,12 +5,15 @@ module.exports = {
     node: true
   },
   extends: [
-    '@nuxtjs/eslint-config-typescript',
-    'plugin:nuxt/recommended',
-    'prettier'
+    "@nuxtjs/eslint-config-typescript",
+    "plugin:nuxt/recommended",
+    "prettier"
   ],
-  plugins: [
-  ],
+  plugins: [],
   // add your custom rules here
-  rules: {}
-}
+  rules: {
+    "object-curly-spacing": ["error", "always"],
+    'vue/multi-word-component-names': 'off',
+    'vue/require-default-prop': 'off'
+  }
+};

@@ -1,20 +1,25 @@
 <template>
   <v-text-field
     :value="password"
-    @input="$emit('input', $event)"
-    :append-inner-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
+    :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
     :type="passwordShow ? 'text' : 'password'"
     dense
     :height="height"
     name="input-password"
     outlined
-    placeholder="パスワード"
-    @click:append-inner="passwordShow = !passwordShow"
-  />
+    :placeholder="placeholder"
+    @input="$emit('input', $event)"
+    @click:append="passwordShow = !passwordShow"
+  >
+    <template #label>
+      <slot name="label"></slot>
+    </template>
+  </v-text-field>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
+
 export default defineComponent({
   name: "InputPassword",
   props: {
@@ -24,6 +29,10 @@ export default defineComponent({
     },
     password: {
       type: String
+    },
+    placeholder: {
+      type: String,
+      required: false
     }
   },
   data() {
