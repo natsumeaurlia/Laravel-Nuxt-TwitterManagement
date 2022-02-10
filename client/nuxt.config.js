@@ -72,7 +72,6 @@ export default {
   build: {
   },
   axios: {
-    proxy: true,
     credentials: true,
     baseUrl: process.env.API_BASE_URL || 'http://localhost',
   },
