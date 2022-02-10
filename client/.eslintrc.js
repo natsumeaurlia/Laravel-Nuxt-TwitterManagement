@@ -13,6 +13,6 @@ module.exports = {
   // add your custom rules here
   rules: {
     "object-curly-spacing": ["error", "always"],
-    "multi-word-component-names": 0
+    'vue/multi-word-component-names': 'off'
   }
 };
