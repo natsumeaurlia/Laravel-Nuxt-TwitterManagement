@@ -1,13 +1,17 @@
 <template>
   <v-text-field
     :value="email"
-    @input="$emit('input', $event)"
     autofocus
     dense
     :height="height"
     outlined
-    placeholder="メールアドレス"
-  />
+    :placeholder="placeholder"
+    @input="$emit('input', $event)"
+  >
+    <template #label>
+      <slot name="label"></slot>
+    </template>
+  </v-text-field>
 </template>
 
 <script lang="ts">
@@ -22,6 +26,10 @@ export default defineComponent({
     },
     email: {
       type: String,
+    },
+    placeholder: {
+      type: String,
+      required: false
     }
   },
   data() {
