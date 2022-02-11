@@ -14,7 +14,8 @@ import { defineComponent } from "@nuxtjs/composition-api";
 import Sidebar from "~/components/dashboard/sidebar.vue";
 
 export default defineComponent({
-  components: { Sidebar }
+  components: { Sidebar },
+  middleware: 'auth'
 })
 
 </script>

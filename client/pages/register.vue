@@ -56,6 +56,7 @@ import InputText from "~/components/input-text.vue";
 
 export default defineComponent({
   components: { InputText, InputPassword, InputEmail },
+  middleware: 'guest',
   setup() {
     // data
     const name = ref<string>("");

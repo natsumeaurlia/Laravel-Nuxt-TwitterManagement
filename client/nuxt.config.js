@@ -77,7 +77,7 @@ export default {
   },
   redirect: {
     login: '/login',
-    logout: '/',
+    logout: '/dashboard',
   },
   auth: {
     strategies: {

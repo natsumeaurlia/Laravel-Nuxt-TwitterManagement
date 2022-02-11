@@ -45,6 +45,7 @@ import InputPassword from "~/components/input-password.vue";
 
 export default defineComponent({
   components: { InputPassword, InputEmail },
+  middleware: 'guest',
   setup() {
     const email = ref<String>('');
     const password = ref<String>('');
