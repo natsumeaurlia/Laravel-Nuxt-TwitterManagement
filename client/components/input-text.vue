@@ -15,24 +15,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api";
+import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   name: 'InputText',
   props: {
     height: {
       type: Number,
-      default: 48
+      default: 48,
     },
     value: [String, Number],
     placeholder: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

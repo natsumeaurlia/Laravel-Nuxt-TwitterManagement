@@ -1,8 +1,8 @@
-import { UserRepository } from "~/repositories/userRepository";
+import { UserRepository } from '~/repositories/userRepository'
 
 declare module 'vue/types/vue' {
   interface Vue {
-   $userRepository: UserRepository
+    $userRepository: UserRepository
   }
 }
 declare module '@nuxt/types' {
@@ -12,6 +12,7 @@ declare module '@nuxt/types' {
 }
 
 declare module 'vuex/types/index' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Store<S> {
     $userRepository: UserRepository
   }
