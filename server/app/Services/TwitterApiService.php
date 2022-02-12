@@ -115,4 +115,20 @@ class TwitterApiService
         }
         return (bool)$result;
     }
+
+    public function usingCredentials(string $accessToken, string $accessTokenSecret, ?string $consumerKey = null, ?string $consumerSecret = null): TwitterApiService
+    {
+        $changedApi = $this->twitter->usingCredentials($accessToken, $accessTokenSecret, $consumerKey, $consumerSecret);
+        return new self($changedApi);
+    }
+
+    public function getCredentials(): ?User
+    {
+        $credentials = $this->twitter->getCredentials();
+        if (is_object($credentials) && !isset($credentials->error)) {
+            return new User($credentials);
+        }
+        return null;
+    }
+
 }
