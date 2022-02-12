@@ -1,4 +1,4 @@
-import { Middleware,Context } from "@nuxt/types";
+import { Middleware, Context } from '@nuxt/types'
 
 const redirectTo = '/'
 

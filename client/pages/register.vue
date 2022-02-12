@@ -1,15 +1,11 @@
 <template>
-  <v-card
-    class="mx-auto fill-width"
-    flat
-    max-width="640"
-  >
+  <v-card class="mx-auto fill-width" flat max-width="640">
     <v-card-title class="text-center pa-8">
       <h4 class="fill-width">新規登録</h4>
     </v-card-title>
     <v-divider></v-divider>
     <div class="px-6 py-8">
-      <div style="max-width:344px" class="mx-auto">
+      <div style="max-width: 344px" class="mx-auto">
         <div class="pt-6">
           <div>
             <input-text v-model="name">
@@ -50,45 +46,44 @@
 
 <script lang="ts">
 import { defineComponent, ref } from '@nuxtjs/composition-api'
-import InputEmail from "~/components/input-email.vue";
-import InputPassword from "~/components/input-password.vue";
-import InputText from "~/components/input-text.vue";
+import InputEmail from '~/components/input-email.vue'
+import InputPassword from '~/components/input-password.vue'
+import InputText from '~/components/input-text.vue'
 
 export default defineComponent({
   components: { InputText, InputPassword, InputEmail },
   middleware: 'guest',
   setup() {
     // data
-    const name = ref<string>("");
-    const email = ref<string>("");
-    const password = ref<string>("");
-    const passwordConfirmation = ref<string>("");
+    const name = ref<string>('')
+    const email = ref<string>('')
+    const password = ref<string>('')
+    const passwordConfirmation = ref<string>('')
 
     return {
       name,
       email,
       password,
-      passwordConfirmation
+      passwordConfirmation,
     }
   },
   methods: {
     async register() {
       try {
-        this.$nuxt.$loading.start();
+        this.$nuxt.$loading.start()
 
-        await this.$userRepository.store(this.name, this.email, this.password);
-        await this.$auth.loginWith('sanctum', { data: { email: this.email, password: this.password } })
-        this.$nuxt.$loading.finish();
-        await this.$router.push('/dashboard');
+        await this.$userRepository.store(this.name, this.email, this.password)
+        await this.$auth.loginWith('sanctum', {
+          data: { email: this.email, password: this.password },
+        })
+        this.$nuxt.$loading.finish()
+        await this.$router.push('/dashboard')
       } catch (err) {
-        this.$nuxt.$loading.finish();
+        this.$nuxt.$loading.finish()
       }
-    }
-  }
+    },
+  },
 })
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,19 +1,15 @@
 <template>
-  <v-card
-    class="mx-auto fill-width"
-    flat
-    max-width="640"
-  >
+  <v-card class="mx-auto fill-width" flat max-width="640">
     <v-card-title class="text-center pa-8">
       <h4 class="fill-width">ログイン</h4>
     </v-card-title>
     <v-divider></v-divider>
     <div class="px-6 py-8">
-      <div style="max-width:344px" class="mx-auto">
+      <div style="max-width: 344px" class="mx-auto">
         <div class="pt-6">
           <div>
-            <input-email v-model="email"/>
-            <input-password v-model="password"/>
+            <input-email v-model="email" />
+            <input-password v-model="password" />
           </div>
           <div class="pb-8">
             <v-btn
@@ -40,36 +36,33 @@
 
 <script lang="ts">
 import { defineComponent, ref } from '@nuxtjs/composition-api'
-import InputEmail from "~/components/input-email.vue";
-import InputPassword from "~/components/input-password.vue";
+import InputEmail from '~/components/input-email.vue'
+import InputPassword from '~/components/input-password.vue'
 
 export default defineComponent({
   components: { InputPassword, InputEmail },
   middleware: 'guest',
   setup() {
-    const email = ref<String>('');
-    const password = ref<String>('');
+    const email = ref<String>('')
+    const password = ref<String>('')
 
-    return { email, password, }
+    return { email, password }
   },
   methods: {
     async login() {
       try {
-        this.$nuxt.$loading.start();
+        this.$nuxt.$loading.start()
         await this.$auth.loginWith('sanctum', {
-          data: { email: this.email, password: this.password }
-        });
-        this.$nuxt.$loading.finish();
-        await this.$router.push('/dashboard');
+          data: { email: this.email, password: this.password },
+        })
+        this.$nuxt.$loading.finish()
+        await this.$router.push('/dashboard')
       } catch (err) {
-        this.$nuxt.$loading.finish();
+        this.$nuxt.$loading.finish()
       }
-    }
-  }
+    },
+  },
 })
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

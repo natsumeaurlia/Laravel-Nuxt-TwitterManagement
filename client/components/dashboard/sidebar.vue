@@ -8,7 +8,9 @@
               <v-icon class="white--text">{{ nav.icon }}</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title class="white--text">{{ nav.name }}</v-list-item-title>
+              <v-list-item-title class="white--text">{{
+                nav.name
+              }}</v-list-item-title>
             </v-list-item-content>
           </NuxtLink>
           <template v-else>
@@ -16,7 +18,9 @@
               <v-icon class="white--text">{{ nav.icon }}</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title class="white--text">{{ nav.name }}</v-list-item-title>
+              <v-list-item-title class="white--text">{{
+                nav.name
+              }}</v-list-item-title>
             </v-list-item-content>
           </template>
         </v-list-item>
@@ -26,15 +30,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "@nuxtjs/composition-api";
-import { NavItems } from "~/types/sidebarItem";
+import { defineComponent, PropType } from '@nuxtjs/composition-api'
+import { NavItems } from '~/types/sidebarItem'
 
 export default defineComponent({
-  name: "Sidebar",
+  name: 'Sidebar',
   props: {
     items: {
       type: Array as PropType<NavItems>,
-    }
-  }
+    },
+  },
 })
 </script>

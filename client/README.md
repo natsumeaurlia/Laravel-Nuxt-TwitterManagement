@@ -23,16 +23,17 @@ $ yarn generate
 
 ### composables
 
-composition-apiを使った関数を入れます。
+composition-api を使った関数を入れます。
 
 ### repositories
 
-APIへのアクセスをラップします。
+API へのアクセスをラップします。
 
 ## Style Guide
+
 それぞれのスタイルガイドに従う。  
 Vue: 単一ファイルコンポーネントはケバブケース。  
 TS: キャメルケース
 
-- [Vueのスタイルガイド](https://jp.vuejs.org/v2/style-guide/index.html)
-- [TypeScriptのスタイルガイド](https://typescript-jp.gitbook.io/deep-dive/styleguide)
+- [Vue のスタイルガイド](https://jp.vuejs.org/v2/style-guide/index.html)
+- [TypeScript のスタイルガイド](https://typescript-jp.gitbook.io/deep-dive/styleguide)

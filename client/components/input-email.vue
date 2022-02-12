@@ -15,22 +15,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api";
+import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  name: "InputEmail",
+  name: 'InputEmail',
   props: {
     height: {
       type: Number,
-      default: 48
+      default: 48,
     },
     email: {
       type: String,
     },
     placeholder: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
@@ -43,11 +43,8 @@ export default defineComponent({
       //     ) || 'メールアドレスの形式が違います'
       // }
     }
-  }
-
+  },
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

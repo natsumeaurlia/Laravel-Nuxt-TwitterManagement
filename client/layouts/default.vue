@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <v-main style="background-color:#F5F5F5;" class="fill-height">
+    <v-main style="background-color: #f5f5f5" class="fill-height">
       <v-container>
-        <nuxt/>
+        <nuxt />
       </v-container>
     </v-main>
   </v-app>

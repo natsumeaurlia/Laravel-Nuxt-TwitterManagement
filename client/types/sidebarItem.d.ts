@@ -8,4 +8,4 @@ export interface NavItem {
   icon?: string
 }
 
-export type NavItems = NavItem[];
+export type NavItems = NavItem[]

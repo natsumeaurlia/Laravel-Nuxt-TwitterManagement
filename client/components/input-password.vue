@@ -21,19 +21,19 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  name: "InputPassword",
+  name: 'InputPassword',
   props: {
     height: {
       type: Number,
-      default: 48
+      default: 48,
     },
     password: {
-      type: String
+      type: String,
     },
     placeholder: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
@@ -43,13 +43,11 @@ export default defineComponent({
           !!value || 'パスワードは必須です',
         regex: (value: any) =>
           /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,128}$/.test(value) ||
-          '半角英小文字大文字数字をそれぞれ1種類以上含む7文字以上で入力してください'
-      }
+          '半角英小文字大文字数字をそれぞれ1種類以上含む7文字以上で入力してください',
+      },
     }
-  }
+  },
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

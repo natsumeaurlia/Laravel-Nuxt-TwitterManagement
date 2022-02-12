@@ -1,21 +1,25 @@
 <template>
   <v-app>
-    <sidebar :items="[{icon: 'mdi-speedometer',name: 'ダッシュボード'},{icon: 'mdi-account',name: 'アカウント管理'}]"/>
-    <v-main style="background-color:#F5F5F5;" class="fill-height">
+    <sidebar
+      :items="[
+        { icon: 'mdi-speedometer', name: 'ダッシュボード' },
+        { icon: 'mdi-account', name: 'アカウント管理' },
+      ]"
+    />
+    <v-main style="background-color: #f5f5f5" class="fill-height">
       <v-container>
-        <nuxt/>
+        <nuxt />
       </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api";
-import Sidebar from "~/components/dashboard/sidebar.vue";
+import { defineComponent } from '@nuxtjs/composition-api'
+import Sidebar from '~/components/dashboard/sidebar.vue'
 
 export default defineComponent({
   components: { Sidebar },
-  middleware: 'auth'
+  middleware: 'auth',
 })
-
 </script>

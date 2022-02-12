@@ -6,30 +6,24 @@ export default {
     titleTemplate: '%s - twitter-admin-front',
     title: 'twitter-admin-front',
     htmlAttrs: {
-      lang: 'ja'
+      lang: 'ja',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
-
+  css: [],
 
   loading: '~/components/loading-spinner.vue',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    '~/plugins/repository.ts'
-  ],
+  plugins: ['~/plugins/repository.ts'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -40,14 +34,11 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
-    '@nuxtjs/composition-api/module'
+    '@nuxtjs/composition-api/module',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
-  ],
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth-next'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -61,16 +52,15 @@ export default {
           info: colors.teal,
           warning: colors.amber,
           error: colors.deepOrange,
-          success: colors.green
-        }
-      }
-    }
+          success: colors.green,
+        },
+      },
+    },
   },
   ssr: false, // Disable Server Side rendering
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  },
+  build: {},
   axios: {
     credentials: true,
     baseUrl: process.env.API_BASE_URL || 'http://localhost',
@@ -87,10 +77,10 @@ export default {
         endpoints: {
           login: {
             url: '/api/v1/auth/login',
-            method: 'post'
+            method: 'post',
           },
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
