@@ -25,4 +25,11 @@ class RegisterControllerTest extends TestCase
         $response = $this->postJson(route('api.v1.auth.register'), $user->only(['name', 'email', 'password']));
         $response->assertStatus(422);
     }
+
+    public function test_failed_only_guest()
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->postJson(route('api.v1.auth.register'), $user->only(['name', 'email', 'password']));
+        $response->assertStatus(403);
+    }
 }
