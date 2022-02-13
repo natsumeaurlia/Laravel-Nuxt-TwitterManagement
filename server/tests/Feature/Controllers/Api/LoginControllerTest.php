@@ -11,11 +11,6 @@ class LoginControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function test_should_login()
     {
         $password = 'password';
