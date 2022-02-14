@@ -29,7 +29,7 @@ class TwitterApiServiceTest extends TestCase
         $api = $this->app->make(TwitterApiService::class);
         $user = $api->getUser('example');
 
-        $this->assertTrue($user instanceof User);
+        $this->assertInstanceOf(User::class, $user);
         $this->assertEquals($user->id, $response['id']);
         $this->assertEquals($user->name, $response['name']);
 
@@ -77,10 +77,10 @@ class TwitterApiServiceTest extends TestCase
         });
         $api = $this->app->make(TwitterApiService::class);
         $tweets = $api->getTweets('hello', 2, 'mixed');
-        $this->assertTrue($tweets instanceof Collection);
+        $this->assertInstanceOf(Collection::class, $tweets);
         $this->assertCount(2, $tweets);
         $tweets->each(function ($item) {
-            $this->assertTrue($item instanceof Tweet);
+            $this->assertInstanceOf(Tweet::class, $item);
         });
     }
 
@@ -184,5 +184,38 @@ class TwitterApiServiceTest extends TestCase
         $api = $this->app->make(TwitterApiService::class);
         $tweet = $api->postRetweet(123456789);
         $this->assertFalse($tweet);
+    }
+
+    public function testUsingCredentials()
+    {
+        $this->mock(Twitter::class, function (MockInterface $mock) {
+            $mock->shouldReceive('usingCredentials')
+                ->once()
+                ->andReturn(app()->make(Twitter::class));
+        });
+        $api = $this->app->make(TwitterApiService::class);
+        $changedApi = $api->usingCredentials('test', 'test', 'test', 'test');
+
+        $this->assertInstanceOf(TwitterApiService::class, $changedApi);
+    }
+
+    public function testGetCredentials()
+    {
+        $this->mock(Twitter::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getCredentials')
+                ->once()
+                ->andReturn((object)[
+                    'id' => 123456,
+                    'id_str' => '123456',
+                    'name' => 'test',
+                    'screen_name' => 'test',
+                    'location' => '東京都',
+                ]);
+        });
+        $api = $this->app->make(TwitterApiService::class);
+        $credentials = $api->getCredentials();
+        $this->assertNotNull($credentials);
+        $this->assertInstanceOf(User::class, $credentials);
+        $this->assertNotNull($credentials->name);
     }
 }
