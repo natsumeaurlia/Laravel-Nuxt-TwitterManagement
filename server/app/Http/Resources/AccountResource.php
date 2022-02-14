@@ -9,7 +9,7 @@ class AccountResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'uuid' => $this->uuid,
+            'id' => $this->id,
             'name' => $this->name,
             'screen_name' => $this->screen_name,
             'avatar_path' => $this->avatar_path,
