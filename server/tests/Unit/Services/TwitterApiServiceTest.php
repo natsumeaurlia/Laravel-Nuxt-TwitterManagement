@@ -14,7 +14,7 @@ use RuntimeException;
 
 class TwitterApiServiceTest extends TestCase
 {
-    public function testGetUser()
+    public function test_get_user()
     {
         $response = [
             'id' => 123456789,
@@ -35,7 +35,7 @@ class TwitterApiServiceTest extends TestCase
 
     }
 
-    public function testFailedGetUser()
+    public function test_failed_get_user()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('getUsers')
@@ -47,7 +47,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertNull($user);
     }
 
-    public function testGetTweets()
+    public function test_get_tweets()
     {
         $response = [
             'statuses' => [
@@ -84,7 +84,7 @@ class TwitterApiServiceTest extends TestCase
         });
     }
 
-    public function testFailedGetTweets()
+    public function test_failed_get_tweets()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('getSearch')
@@ -97,7 +97,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertCount(0, $tweets);
     }
 
-    public function testPostFavorite()
+    public function test_post_favorite()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('postFavorite')
@@ -115,7 +115,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertTrue($tweet);
     }
 
-    public function testFailedPostFavorite()
+    public function test_failed_post_favorite()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('postFavorite')
@@ -157,7 +157,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertFalse($user);
     }
 
-    public function testPostRetweet()
+    public function test_post_retweet()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('postRt')
@@ -174,7 +174,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertTrue($tweet);
     }
 
-    public function testFailedPostRetweet()
+    public function test_failed_post_retweet()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('postRt')
@@ -186,7 +186,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertFalse($tweet);
     }
 
-    public function testUsingCredentials()
+    public function test_using_credentials()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('usingCredentials')
@@ -199,7 +199,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertInstanceOf(TwitterApiService::class, $changedApi);
     }
 
-    public function testGetCredentials()
+    public function test_get_credentials()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('getCredentials')
