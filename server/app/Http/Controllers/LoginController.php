@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\LoginRequest;
+use App\Http\Requests\LoginRequest;
 use App\Http\Resources\LoginResource;
 use App\UseCases\User\Login;
 
