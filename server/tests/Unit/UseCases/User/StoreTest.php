@@ -17,7 +17,7 @@ class StoreTest extends TestCase
     {
         $faker = $this->faker;
         $email = $faker->email;
-        $usecase = resolve(Store::class);
+        $usecase = app()->make(Store::class);
         $result = $usecase->handle($faker->name, $email, $faker->password);
         $this->assertEquals(User::class, get_class($result));
         $this->assertDatabaseHas('users', ['email' => $email]);

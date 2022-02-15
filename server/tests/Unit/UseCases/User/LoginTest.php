@@ -18,7 +18,7 @@ class LoginTest extends TestCase
         $password = 'password';
         $user = User::factory()->create(['password' => $password]);
 
-        $usecase = resolve(Login::class);
+        $usecase = app()->make(Login::class);
         $result = $usecase->handle($user->email, $password);
         $this->assertNotNull($result);
         $this->assertTrue($user->is($result));
@@ -29,7 +29,7 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create(['password' => 'password']);
 
-        $usecase = resolve(Login::class);
+        $usecase = app()->make(Login::class);
         $result = $usecase->handle($user->email, 'missing');
         $this->assertNull($result);
     }
