@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Account\StoreRequest;
 use App\Http\Resources\AccountCollection;
 use App\Http\Resources\AccountResource;
 use App\UseCases\Account\Exception\MissingCredentialException;
@@ -19,15 +20,15 @@ class AccountController extends Controller
         return new AccountCollection($accounts);
     }
 
-    public function store(Request $request, StoreWithCredentials $store)
+    public function store(StoreRequest $request, StoreWithCredentials $store)
     {
         $user = Auth::user();
         try {
-            $storedUser = $store($user, $request->accessToken, $request->accessTokenSecret, $request->consumerKey, $request->consumerSecret);
+            $storedAccount = $store($user, $request->accessToken, $request->accessTokenSecret, $request->consumerKey, $request->consumerSecret);
         } catch (MissingCredentialException $e) {
-            return ValidationException::withMessages(['token' => 'Given invalid token.']);
+            throw ValidationException::withMessages(['token' => 'Given invalid token.']);
         }
-        return (new AccountResource($storedUser))->withResponse($request, response()->setStatusCode(201));
+        return (new AccountResource($storedAccount))->response()->setStatusCode(201);
     }
 
     public function show($id)
