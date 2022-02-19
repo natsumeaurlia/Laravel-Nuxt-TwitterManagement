@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Controllers\Api;
+namespace Tests\Feature\Controllers;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,11 +10,6 @@ class RegisterControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function test_should_register()
     {
         $user = User::factory()->make();
@@ -29,5 +24,12 @@ class RegisterControllerTest extends TestCase
         $user = User::factory()->create();
         $response = $this->postJson(route('api.v1.auth.register'), $user->only(['name', 'email', 'password']));
         $response->assertStatus(422);
+    }
+
+    public function test_failed_only_guest()
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->postJson(route('api.v1.auth.register'), $user->only(['name', 'email', 'password']));
+        $response->assertStatus(403);
     }
 }

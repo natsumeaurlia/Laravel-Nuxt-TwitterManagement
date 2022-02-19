@@ -14,7 +14,7 @@ use RuntimeException;
 
 class TwitterApiServiceTest extends TestCase
 {
-    public function testGetUser()
+    public function test_get_user()
     {
         $response = [
             'id' => 123456789,
@@ -29,13 +29,13 @@ class TwitterApiServiceTest extends TestCase
         $api = $this->app->make(TwitterApiService::class);
         $user = $api->getUser('example');
 
-        $this->assertTrue($user instanceof User);
+        $this->assertInstanceOf(User::class, $user);
         $this->assertEquals($user->id, $response['id']);
         $this->assertEquals($user->name, $response['name']);
 
     }
 
-    public function testFailedGetUser()
+    public function test_failed_get_user()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('getUsers')
@@ -47,7 +47,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertNull($user);
     }
 
-    public function testGetTweets()
+    public function test_get_tweets()
     {
         $response = [
             'statuses' => [
@@ -77,14 +77,14 @@ class TwitterApiServiceTest extends TestCase
         });
         $api = $this->app->make(TwitterApiService::class);
         $tweets = $api->getTweets('hello', 2, 'mixed');
-        $this->assertTrue($tweets instanceof Collection);
+        $this->assertInstanceOf(Collection::class, $tweets);
         $this->assertCount(2, $tweets);
         $tweets->each(function ($item) {
-            $this->assertTrue($item instanceof Tweet);
+            $this->assertInstanceOf(Tweet::class, $item);
         });
     }
 
-    public function testFailedGetTweets()
+    public function test_failed_get_tweets()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('getSearch')
@@ -97,7 +97,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertCount(0, $tweets);
     }
 
-    public function testPostFavorite()
+    public function test_post_favorite()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('postFavorite')
@@ -115,7 +115,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertTrue($tweet);
     }
 
-    public function testFailedPostFavorite()
+    public function test_failed_post_favorite()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('postFavorite')
@@ -157,7 +157,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertFalse($user);
     }
 
-    public function testPostRetweet()
+    public function test_post_retweet()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('postRt')
@@ -174,7 +174,7 @@ class TwitterApiServiceTest extends TestCase
         $this->assertTrue($tweet);
     }
 
-    public function testFailedPostRetweet()
+    public function test_failed_post_retweet()
     {
         $this->mock(Twitter::class, function (MockInterface $mock) {
             $mock->shouldReceive('postRt')
@@ -184,5 +184,38 @@ class TwitterApiServiceTest extends TestCase
         $api = $this->app->make(TwitterApiService::class);
         $tweet = $api->postRetweet(123456789);
         $this->assertFalse($tweet);
+    }
+
+    public function test_using_credentials()
+    {
+        $this->mock(Twitter::class, function (MockInterface $mock) {
+            $mock->shouldReceive('usingCredentials')
+                ->once()
+                ->andReturn(app()->make(Twitter::class));
+        });
+        $api = $this->app->make(TwitterApiService::class);
+        $changedApi = $api->usingCredentials('test', 'test', 'test', 'test');
+
+        $this->assertInstanceOf(TwitterApiService::class, $changedApi);
+    }
+
+    public function test_get_credentials()
+    {
+        $this->mock(Twitter::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getCredentials')
+                ->once()
+                ->andReturn((object)[
+                    'id' => 123456,
+                    'id_str' => '123456',
+                    'name' => 'test',
+                    'screen_name' => 'test',
+                    'location' => '東京都',
+                ]);
+        });
+        $api = $this->app->make(TwitterApiService::class);
+        $credentials = $api->getCredentials();
+        $this->assertNotNull($credentials);
+        $this->assertInstanceOf(User::class, $credentials);
+        $this->assertNotNull($credentials->name);
     }
 }

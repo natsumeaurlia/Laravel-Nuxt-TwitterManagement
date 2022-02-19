@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Controllers\Api;
+namespace Tests\Feature\Controllers;
 
 use App\Models\User;
 use App\UseCases\User\Login;
@@ -11,11 +11,6 @@ class LoginControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function test_should_login()
     {
         $password = 'password';
@@ -35,5 +30,13 @@ class LoginControllerTest extends TestCase
         $user = User::factory()->create(['password' => $password]);
         $response = $this->postJson(route('api.v1.auth.login'), ['email' => $user->email, 'password' => $password]);
         $response->assertUnprocessable();
+    }
+
+    public function test_failed_login_only_guest()
+    {
+        $password = 'password';
+        $user = User::factory()->create(['password' => $password]);
+        $response = $this->actingAs($user)->postJson(route('api.v1.auth.login'), ['email' => $user->email, 'password' => $password]);
+        $response->assertStatus(403);
     }
 }

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\RegisterRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\RegisterResource;
 use App\UseCases\User\Store;
 

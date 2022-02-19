@@ -22,6 +22,7 @@ class AccountFactory extends Factory
             'access_token' => $this->faker->uuid,
             'access_token_secret' => $this->faker->uuid,
             'api_key' => $this->faker->uuid,
+            'api_secret_key' => $this->faker->uuid,
             'user_id' => User::factory()
         ];
     }

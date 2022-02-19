@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\RegisterController;
-use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +18,13 @@ use App\Http\Controllers\Api\LoginController;
 */
 
 Route::prefix('v1')->name('v1.')->group(function () {
-    Route::prefix('auth')->name('auth.')->group(function () {
+    Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
         Route::post('register', RegisterController::class)->name('register');
         Route::post('login', LoginController::class)->name('login');
+    });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::apiResource('accounts', AccountController::class);
     });
 });
 
