@@ -26,6 +26,7 @@ class RedirectIfAuthenticated
                 continue;
             }
             // apiへのアクセスは403を返す
+            /** @phpstan-ignore-next-line */
             if ($request->route()->named('api.*')) {
                 abort(403);
             }

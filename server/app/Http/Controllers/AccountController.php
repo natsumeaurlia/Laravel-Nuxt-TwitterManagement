@@ -24,7 +24,13 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         try {
-            $storedAccount = $store($user, $request->accessToken, $request->accessTokenSecret, $request->consumerKey, $request->consumerSecret);
+            $storedAccount = $store(
+                $user,
+                $request->accessToken,
+                $request->accessTokenSecret,
+                $request->consumerKey,
+                $request->consumerSecret
+            );
         } catch (MissingCredentialException $e) {
             throw ValidationException::withMessages(['token' => 'Given invalid token.']);
         }
@@ -45,7 +51,13 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         try {
-            $updatedAccount = $store($user, $request->accessToken, $request->accessTokenSecret, $request->consumerKey, $request->consumerSecret);
+            $updatedAccount = $store(
+                $user,
+                $request->accessToken,
+                $request->accessTokenSecret,
+                $request->consumerKey,
+                $request->consumerSecret
+            );
         } catch (MissingCredentialException $e) {
             throw ValidationException::withMessages(['token' => 'Given invalid token.']);
         }
