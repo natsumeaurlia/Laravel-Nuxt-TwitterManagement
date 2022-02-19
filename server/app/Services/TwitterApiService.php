@@ -117,11 +117,10 @@ class TwitterApiService
     }
 
     public function usingCredentials(
-        string  $accessToken,
-        string  $accessTokenSecret,
+        string $accessToken,
+        string $accessTokenSecret,
         ?string $consumerKey = null,
-        ?string $consumerSecret = null
-    ): TwitterApiService
+        ?string $consumerSecret = null): TwitterApiService
     {
         $changedApi = $this->twitter->usingCredentials($accessToken, $accessTokenSecret, $consumerKey, $consumerSecret);
         return new self($changedApi);
@@ -137,11 +136,10 @@ class TwitterApiService
     }
 
     public static function createWithCredentials(
-        string  $accessToken,
-        string  $accessTokenSecret,
+        string $accessToken,
+        string $accessTokenSecret,
         ?string $consumerKey = null,
-        ?string $consumerSecret = null
-    ): TwitterApiService
+        ?string $consumerSecret = null): TwitterApiService
     {
         $api = app()->make(TwitterApiService::class);
         return $api->usingCredentials($accessToken, $accessTokenSecret, $consumerKey, $consumerSecret);
