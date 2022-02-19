@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Account\StoreRequest;
+use App\Http\Requests\Account\UpdateOrCreateRequest;
 use App\Http\Resources\AccountCollection;
 use App\Http\Resources\AccountResource;
 use App\UseCases\Account\Exception\MissingCredentialException;
@@ -20,7 +20,7 @@ class AccountController extends Controller
         return new AccountCollection($accounts);
     }
 
-    public function store(StoreRequest $request, StoreWithCredentials $store)
+    public function store(UpdateOrCreateRequest $request, StoreWithCredentials $store)
     {
         $user = Auth::user();
         try {
@@ -41,13 +41,24 @@ class AccountController extends Controller
         return new AccountResource($account);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateOrCreateRequest $request, StoreWithCredentials $store)
     {
-        //
+        $user = Auth::user();
+        try {
+            $updatedAccount = $store($user, $request->accessToken, $request->accessTokenSecret, $request->consumerKey, $request->consumerSecret);
+        } catch (MissingCredentialException $e) {
+            throw ValidationException::withMessages(['token' => 'Given invalid token.']);
+        }
+        return new AccountResource($updatedAccount);
     }
 
     public function destroy($id)
     {
-        //
+        $user = Auth::user();
+        $account = $user->accounts()->find($id);
+        if ($account && $account->delete()) {
+            return response()->json(['message' => 'account deleted.']);
+        }
+        return response()->json(['message' => 'account not found.'], 404);
     }
 }

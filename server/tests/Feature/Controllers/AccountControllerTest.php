@@ -42,16 +42,9 @@ class AccountControllerTest extends TestCase
     public function test_store_accounts()
     {
         $account = Account::factory()->create(['user_id' => $this->user->id]);
-        $this->mock(StoreWithCredentials::class, function (MockInterface $mock) use ($account) {
-            $mock->shouldReceive('__invoke')->once()->andReturn($account);
-        });
+        $this->mockStoreWithCredentials($account);
 
-        $response = $this->actingAs($this->user)->postJson(route('api.v1.accounts.store', [
-            'accessToken' => $this->faker->text(25),
-            'accessTokenSecret' => $this->faker->text(25),
-            'consumerKey' => $this->faker->text(25),
-            'consumerSecret' => $this->faker->text(25),
-        ]));
+        $response = $this->actingAs($this->user)->postJson(route('api.v1.accounts.store', $this->makeToken()));
 
         $response->assertCreated()
             ->assertJson([
@@ -71,12 +64,7 @@ class AccountControllerTest extends TestCase
             $mock->shouldReceive('__invoke')->once()->andThrow(MissingCredentialException::class);
         });
 
-        $response = $this->actingAs($this->user)->postJson(route('api.v1.accounts.store', [
-            'accessToken' => $this->faker->text(25),
-            'accessTokenSecret' => $this->faker->text(25),
-            'consumerKey' => $this->faker->text(25),
-            'consumerSecret' => $this->faker->text(25),
-        ]));
+        $response = $this->actingAs($this->user)->postJson(route('api.v1.accounts.store', $this->makeToken()));
 
         $response->assertStatus(422);
     }
@@ -95,4 +83,73 @@ class AccountControllerTest extends TestCase
         $response = $this->actingAs($this->user)->getJson(route('api.v1.accounts.show', ['account' => $account->id]));
         $response->assertNotFound();
     }
+
+    public function test_update_account()
+    {
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
+        $updatedAccount = Account::factory()->make(['id' => $account->id]);
+
+        $this->mockStoreWithCredentials($updatedAccount);
+
+        $response = $this->actingAs($this->user)
+            ->putJson(route('api.v1.accounts.update', array_merge($this->makeToken(), ['account' => $account->id])));
+
+        $response->assertStatus(200)->assertJson([
+            'data' => [
+                'id' => $updatedAccount->id,
+                'name' => $updatedAccount->name,
+                'screen_name' => $updatedAccount->screen_name,
+                'avatar_path' => $updatedAccount->avatar_path
+            ]]);
+        $this->assertFalse(isset($response['data']['access_token']));
+        $this->assertFalse(isset($response['data']['access_token_secret']));
+    }
+
+    public function test_delete_account()
+    {
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
+
+        $this->assertDatabaseHas('accounts', ['id' => $account->id]);
+        $response = $this->actingAs($this->user)
+            ->deleteJson(route('api.v1.accounts.destroy', ['account' => $account->id]));
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('accounts', ['id' => $account->id]);
+    }
+
+    public function test_failed_delete_other_user_account()
+    {
+        $user = User::factory()->create();
+        $account = Account::factory()->create(['user_id' => $user->id]);
+
+        $this->assertDatabaseHas('accounts', ['id' => $account->id]);
+        $response = $this->actingAs($this->user)
+            ->deleteJson(route('api.v1.accounts.destroy', ['account' => $account->id]));
+        $response->assertStatus(404);
+        $this->assertDatabaseHas('accounts', ['id' => $account->id]);
+    }
+
+    /**
+     * @param Account $account
+     * @return void
+     */
+    private function mockStoreWithCredentials(Account $account): void
+    {
+        $this->mock(StoreWithCredentials::class, function (MockInterface $mock) use ($account) {
+            $mock->shouldReceive('__invoke')->once()->andReturn($account);
+        });
+    }
+
+    /**
+     * @return array
+     */
+    private function makeToken(): array
+    {
+        return [
+            'accessToken' => $this->faker->text(25),
+            'accessTokenSecret' => $this->faker->text(25),
+            'consumerKey' => $this->faker->text(25),
+            'consumerSecret' => $this->faker->text(25),
+        ];
+    }
+
 }
