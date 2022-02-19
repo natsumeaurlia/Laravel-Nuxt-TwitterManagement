@@ -33,7 +33,12 @@ class AccountController extends Controller
 
     public function show($id)
     {
-        //
+        $user = Auth::user();
+        $account = $user->accounts()->find($id);
+        if (!$account) {
+            return response()->json(['message' => 'account not found.'], 404);
+        }
+        return new AccountResource($account);
     }
 
     public function update(Request $request, $id)

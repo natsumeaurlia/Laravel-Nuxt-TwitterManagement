@@ -80,4 +80,19 @@ class AccountControllerTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    public function test_show_my_account()
+    {
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
+        $response = $this->actingAs($this->user)->getJson(route('api.v1.accounts.show', ['account' => $account->id]));
+        $response->assertStatus(200)->assertJson(['data' => ['id' => $account->id, 'name' => $account->name]]);
+    }
+
+    public function test_show_not_found_other_user_account()
+    {
+        $otherUser = User::factory()->create();
+        $account = Account::factory()->create(['user_id' => $otherUser->id]);
+        $response = $this->actingAs($this->user)->getJson(route('api.v1.accounts.show', ['account' => $account->id]));
+        $response->assertNotFound();
+    }
 }
