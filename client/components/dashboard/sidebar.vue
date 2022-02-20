@@ -3,14 +3,12 @@
     <v-container>
       <v-list nav>
         <v-list-item v-for="nav in items" :key="nav.name">
-          <NuxtLink v-if="nav.to" :to="nav.to">
+          <NuxtLink v-if="nav.to" :to="nav.to" class="d-inline-flex text-decoration-none">
             <v-list-item-avatar v-if="nav.icon" class="white--text">
               <v-icon class="white--text">{{ nav.icon }}</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title class="white--text">{{
-                nav.name
-              }}</v-list-item-title>
+              <v-list-item-title class="white--text">{{ nav.name }}</v-list-item-title>
             </v-list-item-content>
           </NuxtLink>
           <template v-else>
@@ -18,9 +16,8 @@
               <v-icon class="white--text">{{ nav.icon }}</v-icon>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title class="white--text">{{
-                nav.name
-              }}</v-list-item-title>
+              <v-list-item-title class="white--text">{{ nav.name }}
+              </v-list-item-title>
             </v-list-item-content>
           </template>
         </v-list-item>
@@ -42,3 +39,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="scss">
+.nuxt-link-active{
+  border-bottom: 1px solid gray;
+}
+</style>
