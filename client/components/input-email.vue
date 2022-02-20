@@ -1,7 +1,6 @@
 <template>
   <v-text-field
     :value="email"
-    autofocus
     dense
     :height="height"
     outlined
