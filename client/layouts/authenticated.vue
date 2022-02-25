@@ -2,7 +2,7 @@
   <v-app>
     <sidebar :items="items"/>
     <v-main style="background-color: #f5f5f5" class="fill-height">
-      <v-container>
+      <v-container class="grey--text text--darken-3">
         <nuxt/>
       </v-container>
     </v-main>
