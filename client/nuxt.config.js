@@ -76,7 +76,7 @@ export default {
         url: process.env.API_BASE_URL || 'http://localhost',
         endpoints: {
           login: {
-            url: '/api/v1/auth/login',
+            url: '/api/auth/login',
             method: 'post',
           },
         },
