@@ -16,5 +16,6 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'vue/require-default-prop': 'off',
     'no-useless-constructor': 'off',
+    'import/named': 'off'
   },
 }
