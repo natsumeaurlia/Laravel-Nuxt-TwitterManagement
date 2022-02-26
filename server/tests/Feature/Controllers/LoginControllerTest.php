@@ -17,7 +17,7 @@ class LoginControllerTest extends TestCase
         $user = User::factory()->create(['password' => $password]);
         $response = $this->postJson(route('api.auth.login'), ['email' => $user->email, 'password' => $password]);
         $response->assertStatus(200)
-            ->assertJson(['data' => ['name' => $user->name, 'email' => $user->email]]);
+            ->assertJson(['name' => $user->name, 'email' => $user->email]);
         $this->assertAuthenticatedAs($user);
     }
 

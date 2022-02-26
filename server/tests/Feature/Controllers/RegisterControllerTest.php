@@ -15,7 +15,7 @@ class RegisterControllerTest extends TestCase
         $user = User::factory()->make();
         $response = $this->postJson(route('api.auth.register'), $user->only(['name', 'email', 'password']));
         $response->assertCreated()
-            ->assertJson(['data' => ['name' => $user->name, 'email' => $user->email]]);
+            ->assertJson(['name' => $user->name, 'email' => $user->email]);
         $this->assertDatabaseHas($user, ['email' => $user->email]);
     }
 

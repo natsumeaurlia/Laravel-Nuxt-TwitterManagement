@@ -28,7 +28,7 @@ class AccountControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)->getJson(route('api.accounts.index'));
         $response->assertSuccessful();
-        $this->assertCount(0, $response['data']);
+        $this->assertCount(0, $response->decodeResponseJson());
     }
 
     public function test_index_accounts()
@@ -36,7 +36,7 @@ class AccountControllerTest extends TestCase
         Account::factory()->count(3)->for($this->user)->create();
         $response = $this->actingAs($this->user)->getJson(route('api.accounts.index'));
         $response->assertSuccessful();
-        $this->assertCount(3, $response['data']);
+        $this->assertCount(3, $response->decodeResponseJson());
     }
 
     public function test_store_accounts()
@@ -48,14 +48,13 @@ class AccountControllerTest extends TestCase
 
         $response->assertCreated()
             ->assertJson([
-                'data' => [
-                    'id' => $account->id,
-                    'name' => $account->name,
-                    'screen_name' => $account->screen_name,
-                    'avatar_path' => $account->avatar_path
-                ]]);
-        $this->assertFalse(isset($response['data']['access_token']));
-        $this->assertFalse(isset($response['data']['access_token_secret']));
+                'id' => $account->id,
+                'name' => $account->name,
+                'screen_name' => $account->screen_name,
+                'avatar_path' => $account->avatar_path
+            ]);
+        $this->assertFalse(isset($response['access_token']));
+        $this->assertFalse(isset($response['access_token_secret']));
     }
 
     public function test_failed_store_accounts()
@@ -73,7 +72,7 @@ class AccountControllerTest extends TestCase
     {
         $account = Account::factory()->create(['user_id' => $this->user->id]);
         $response = $this->actingAs($this->user)->getJson(route('api.accounts.show', ['account' => $account->id]));
-        $response->assertStatus(200)->assertJson(['data' => ['id' => $account->id, 'name' => $account->name]]);
+        $response->assertStatus(200)->assertJson(['id' => $account->id, 'name' => $account->name]);
     }
 
     public function test_show_not_found_other_user_account()
@@ -95,14 +94,13 @@ class AccountControllerTest extends TestCase
             ->putJson(route('api.accounts.update', array_merge($this->makeToken(), ['account' => $account->id])));
 
         $response->assertStatus(200)->assertJson([
-            'data' => [
-                'id' => $updatedAccount->id,
-                'name' => $updatedAccount->name,
-                'screen_name' => $updatedAccount->screen_name,
-                'avatar_path' => $updatedAccount->avatar_path
-            ]]);
-        $this->assertFalse(isset($response['data']['access_token']));
-        $this->assertFalse(isset($response['data']['access_token_secret']));
+            'id' => $updatedAccount->id,
+            'name' => $updatedAccount->name,
+            'screen_name' => $updatedAccount->screen_name,
+            'avatar_path' => $updatedAccount->avatar_path
+        ]);
+        $this->assertFalse(isset($response['access_token']));
+        $this->assertFalse(isset($response['access_token_secret']));
     }
 
     public function test_delete_account()
