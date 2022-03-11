@@ -1,5 +1,5 @@
 import { UserRepository } from '~/repositories/userRepository'
-import { AccountRepository } from "~/repositories/accountRepository";
+import { AccountRepository } from '~/repositories/accountRepository'
 
 declare module 'vue/types/vue' {
   interface Vue {

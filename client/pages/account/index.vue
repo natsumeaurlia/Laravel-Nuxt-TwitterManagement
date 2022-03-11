@@ -1,45 +1,44 @@
 <template>
   <div class="">
     <h1>アカウント管理</h1>
-    <add-form v-model="form" :can-submit="canSubmit" :show="createDialog" @submit="onSubmit" @close="createDialog = false"/>
+    <add-form
+      v-model="form"
+      :can-submit="canSubmit"
+      :show="createDialog"
+      @submit="onSubmit"
+      @close="createDialog = false"
+    />
 
-    <div class="mt-8"/>
-    <v-data-table
-      :items="accounts"
-      class="elevation-1"
-      :headers="headers"
-    >
+    <div class="mt-8" />
+    <v-data-table :items="accounts" class="elevation-1" :headers="headers">
       <template #top>
-        <v-toolbar
-          flat
-        >
+        <v-toolbar flat>
           <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            dark
-            class="mb-2"
-            @click="createDialog = true"
-          >
+          <v-btn color="primary" dark class="mb-2" @click="createDialog = true">
             新規追加
           </v-btn>
         </v-toolbar>
       </template>
-      <template #no-data>
-        アカウントがありません。
-      </template>
+      <template #no-data> アカウントがありません。 </template>
     </v-data-table>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useFetch, useStore } from '@nuxtjs/composition-api'
+import {
+  computed,
+  defineComponent,
+  ref,
+  useFetch,
+  useStore,
+} from '@nuxtjs/composition-api'
 import addForm from '~/components/account/addForm.vue'
-import { StoreType as AccountStore } from "~/store/account";
-import { useAccountForm } from "~/composables/useAccountForm";
+import { StoreType as AccountStore } from '~/store/account'
+import { useAccountForm } from '~/composables/useAccountForm'
 
 export default defineComponent({
   components: {
-    addForm
+    addForm,
   },
   layout: 'authenticated',
   setup() {
@@ -47,31 +46,31 @@ export default defineComponent({
     const headers = [
       { text: 'name', value: 'name' },
       { text: 'screen name', value: 'screen_name' },
-    ];
+    ]
 
-    const store = useStore<AccountStore>();
+    const store = useStore<AccountStore>()
 
     useFetch(() => {
       if (store.state.account.accounts.length === 0) {
-        store.dispatch('account/fetchAccounts');
+        store.dispatch('account/fetchAccounts')
       }
     })
 
-    const accounts = computed(() => store.state.account.accounts);
+    const accounts = computed(() => store.state.account.accounts)
 
-    const { form, canSubmit, initializeForm } = useAccountForm();
+    const { form, canSubmit, initializeForm } = useAccountForm()
 
     const onSubmit = () => {
       if (!canSubmit) {
-        return;
+        return
       }
-      store.dispatch('account/createAccounts', { ...form });
-      createDialog.value = false;
-      initializeForm();
+      store.dispatch('account/createAccounts', { ...form })
+      createDialog.value = false
+      initializeForm()
     }
 
     return { createDialog, accounts, headers, canSubmit, form, onSubmit }
-  }
+  },
 })
 </script>
 

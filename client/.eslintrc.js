@@ -17,6 +17,6 @@ module.exports = {
     'vue/require-default-prop': 'off',
     'no-useless-constructor': 'off',
     'import/named': 'off',
-    'symbol-description': 'off'
+    'symbol-description': 'off',
   },
 }

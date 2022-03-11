@@ -7,7 +7,7 @@
         class="mx-auto v-card--material__avatar elevation-6"
         color="grey"
       >
-        <v-img :src="avatar"/>
+        <v-img :src="avatar" />
       </v-avatar>
 
       <v-sheet
@@ -22,9 +22,9 @@
         class="text-start v-card--material__heading mb-n6"
         dark
       >
-        <slot v-if="$slots.heading" name="heading"/>
+        <slot v-if="$slots.heading" name="heading" />
 
-        <slot v-else-if="$slots.image" name="image"/>
+        <slot v-else-if="$slots.image" name="image" />
 
         <div
           v-else-if="title && !icon"
@@ -32,45 +32,45 @@
           v-text="title"
         />
 
-        <v-icon v-else-if="icon" size="32" v-text="icon"/>
+        <v-icon v-else-if="icon" size="32" v-text="icon" />
 
-        <div v-if="text" class="headline font-weight-thin" v-text="text"/>
+        <div v-if="text" class="headline font-weight-thin" v-text="text" />
       </v-sheet>
 
       <div v-if="$slots['after-heading']" class="ml-6">
-        <slot name="after-heading"/>
+        <slot name="after-heading" />
       </div>
 
       <div v-else-if="icon && title" class="ml-4">
-        <div class="card-title font-weight-light" v-text="title"/>
+        <div class="card-title font-weight-light" v-text="title" />
       </div>
     </div>
 
-    <slot/>
+    <slot />
 
     <template v-if="$slots.actions">
-      <v-divider class="mt-2"/>
+      <v-divider class="mt-2" />
 
       <v-card-actions class="pb-0">
-        <slot name="actions"/>
+        <slot name="actions" />
       </v-card-actions>
     </template>
   </v-card>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "@nuxtjs/composition-api";
+import { computed, defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  name: "MaterialCard",
+  name: 'MaterialCard',
   props: {
     avatar: {
       type: String,
-      default: "",
+      default: '',
     },
     color: {
       type: String,
-      default: "success",
+      default: 'success',
     },
     icon: {
       type: String,
@@ -82,26 +82,29 @@ export default defineComponent({
     },
     text: {
       type: String,
-      default: "",
+      default: '',
     },
     title: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   setup(props, context) {
-
-    const hasHeading = computed(() => Boolean(context.slots.heading || props.title || props.icon))
+    const hasHeading = computed(() =>
+      Boolean(context.slots.heading || props.title || props.icon)
+    )
 
     const classes = computed(() => {
-      return { "v-card--material--has-heading": hasHeading }
+      return { 'v-card--material--has-heading': hasHeading }
     })
 
-    const hasAltHeading = computed(() => Boolean(context.slots.heading || (props.title && props.icon)))
+    const hasAltHeading = computed(() =>
+      Boolean(context.slots.heading || (props.title && props.icon))
+    )
 
     return { hasHeading, classes, hasAltHeading }
   },
-});
+})
 </script>
 
 <style lang="sass">
