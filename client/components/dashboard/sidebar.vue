@@ -54,14 +54,11 @@ export default defineComponent({
       return $vuetify.breakpoint.sm || $vuetify.breakpoint.xs
     };
     const drawer = ref<Boolean>(!lessThanSm());
-    const showAppBar = computed(() =>{
+    const showAppBar = computed(() => {
       return lessThanSm()
     })
-    return { drawer,showAppBar }
+    return { drawer, showAppBar }
   },
-  computed: {
-
-  }
 })
 </script>
 
