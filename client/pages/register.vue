@@ -71,8 +71,9 @@ export default defineComponent({
     async register() {
       try {
         this.$nuxt.$loading.start()
-
-        await this.$userRepository.store(this.name, this.email, this.password)
+        await this.$axios.$get('/sanctum/csrf-cookie').then(async () => {
+          await this.$userRepository.store(this.name, this.email, this.password)
+        })
         await this.$auth.loginWith('sanctum', {
           data: { email: this.email, password: this.password },
         })

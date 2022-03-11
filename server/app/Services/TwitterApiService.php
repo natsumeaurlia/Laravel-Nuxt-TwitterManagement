@@ -128,10 +128,13 @@ class TwitterApiService
 
     public function getCredentials(): ?User
     {
-        $credentials = $this->twitter->getCredentials();
+        $credentials = rescue(function () {
+            return $this->twitter->getCredentials();
+        });
         if (is_object($credentials) && !isset($credentials->error)) {
             return new User($credentials);
         }
+        logger()->info('認証情報の取得に失敗しました。');
         return null;
     }
 

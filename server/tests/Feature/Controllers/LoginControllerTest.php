@@ -15,9 +15,9 @@ class LoginControllerTest extends TestCase
     {
         $password = 'password';
         $user = User::factory()->create(['password' => $password]);
-        $response = $this->postJson(route('api.v1.auth.login'), ['email' => $user->email, 'password' => $password]);
+        $response = $this->postJson(route('api.auth.login'), ['email' => $user->email, 'password' => $password]);
         $response->assertStatus(200)
-            ->assertJson(['data' => ['name' => $user->name, 'email' => $user->email]]);
+            ->assertJson(['name' => $user->name, 'email' => $user->email]);
         $this->assertAuthenticatedAs($user);
     }
 
@@ -28,7 +28,7 @@ class LoginControllerTest extends TestCase
         });
         $password = 'password';
         $user = User::factory()->create(['password' => $password]);
-        $response = $this->postJson(route('api.v1.auth.login'), ['email' => $user->email, 'password' => $password]);
+        $response = $this->postJson(route('api.auth.login'), ['email' => $user->email, 'password' => $password]);
         $response->assertUnprocessable();
     }
 
@@ -36,7 +36,7 @@ class LoginControllerTest extends TestCase
     {
         $password = 'password';
         $user = User::factory()->create(['password' => $password]);
-        $response = $this->actingAs($user)->postJson(route('api.v1.auth.login'), ['email' => $user->email, 'password' => $password]);
+        $response = $this->actingAs($user)->postJson(route('api.auth.login'), ['email' => $user->email, 'password' => $password]);
         $response->assertStatus(403);
     }
 }

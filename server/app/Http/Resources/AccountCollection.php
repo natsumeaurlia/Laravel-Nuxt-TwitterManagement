@@ -8,7 +8,6 @@ class AccountCollection extends ResourceCollection
 {
     public function toArray($request)
     {
-        $resources = $this->collection->mapInto(AccountResource::class);
-        return ['data' => $resources];
+        return $this->collection->mapInto(AccountResource::class);
     }
 }

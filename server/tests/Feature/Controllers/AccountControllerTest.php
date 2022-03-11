@@ -26,17 +26,17 @@ class AccountControllerTest extends TestCase
 
     public function test_index_no_accounts()
     {
-        $response = $this->actingAs($this->user)->getJson(route('api.v1.accounts.index'));
+        $response = $this->actingAs($this->user)->getJson(route('api.accounts.index'));
         $response->assertSuccessful();
-        $this->assertCount(0, $response['data']);
+        $this->assertCount(0, $response->decodeResponseJson());
     }
 
     public function test_index_accounts()
     {
         Account::factory()->count(3)->for($this->user)->create();
-        $response = $this->actingAs($this->user)->getJson(route('api.v1.accounts.index'));
+        $response = $this->actingAs($this->user)->getJson(route('api.accounts.index'));
         $response->assertSuccessful();
-        $this->assertCount(3, $response['data']);
+        $this->assertCount(3, $response->decodeResponseJson());
     }
 
     public function test_store_accounts()
@@ -44,18 +44,17 @@ class AccountControllerTest extends TestCase
         $account = Account::factory()->create(['user_id' => $this->user->id]);
         $this->mockStoreWithCredentials($account);
 
-        $response = $this->actingAs($this->user)->postJson(route('api.v1.accounts.store', $this->makeToken()));
+        $response = $this->actingAs($this->user)->postJson(route('api.accounts.store', $this->makeToken()));
 
         $response->assertCreated()
             ->assertJson([
-                'data' => [
-                    'id' => $account->id,
-                    'name' => $account->name,
-                    'screen_name' => $account->screen_name,
-                    'avatar_path' => $account->avatar_path
-                ]]);
-        $this->assertFalse(isset($response['data']['access_token']));
-        $this->assertFalse(isset($response['data']['access_token_secret']));
+                'id' => $account->id,
+                'name' => $account->name,
+                'screen_name' => $account->screen_name,
+                'avatar_path' => $account->avatar_path
+            ]);
+        $this->assertFalse(isset($response['access_token']));
+        $this->assertFalse(isset($response['access_token_secret']));
     }
 
     public function test_failed_store_accounts()
@@ -64,7 +63,7 @@ class AccountControllerTest extends TestCase
             $mock->shouldReceive('__invoke')->once()->andThrow(MissingCredentialException::class);
         });
 
-        $response = $this->actingAs($this->user)->postJson(route('api.v1.accounts.store', $this->makeToken()));
+        $response = $this->actingAs($this->user)->postJson(route('api.accounts.store', $this->makeToken()));
 
         $response->assertStatus(422);
     }
@@ -72,15 +71,15 @@ class AccountControllerTest extends TestCase
     public function test_show_my_account()
     {
         $account = Account::factory()->create(['user_id' => $this->user->id]);
-        $response = $this->actingAs($this->user)->getJson(route('api.v1.accounts.show', ['account' => $account->id]));
-        $response->assertStatus(200)->assertJson(['data' => ['id' => $account->id, 'name' => $account->name]]);
+        $response = $this->actingAs($this->user)->getJson(route('api.accounts.show', ['account' => $account->id]));
+        $response->assertStatus(200)->assertJson(['id' => $account->id, 'name' => $account->name]);
     }
 
     public function test_show_not_found_other_user_account()
     {
         $otherUser = User::factory()->create();
         $account = Account::factory()->create(['user_id' => $otherUser->id]);
-        $response = $this->actingAs($this->user)->getJson(route('api.v1.accounts.show', ['account' => $account->id]));
+        $response = $this->actingAs($this->user)->getJson(route('api.accounts.show', ['account' => $account->id]));
         $response->assertNotFound();
     }
 
@@ -92,17 +91,16 @@ class AccountControllerTest extends TestCase
         $this->mockStoreWithCredentials($updatedAccount);
 
         $response = $this->actingAs($this->user)
-            ->putJson(route('api.v1.accounts.update', array_merge($this->makeToken(), ['account' => $account->id])));
+            ->putJson(route('api.accounts.update', array_merge($this->makeToken(), ['account' => $account->id])));
 
         $response->assertStatus(200)->assertJson([
-            'data' => [
-                'id' => $updatedAccount->id,
-                'name' => $updatedAccount->name,
-                'screen_name' => $updatedAccount->screen_name,
-                'avatar_path' => $updatedAccount->avatar_path
-            ]]);
-        $this->assertFalse(isset($response['data']['access_token']));
-        $this->assertFalse(isset($response['data']['access_token_secret']));
+            'id' => $updatedAccount->id,
+            'name' => $updatedAccount->name,
+            'screen_name' => $updatedAccount->screen_name,
+            'avatar_path' => $updatedAccount->avatar_path
+        ]);
+        $this->assertFalse(isset($response['access_token']));
+        $this->assertFalse(isset($response['access_token_secret']));
     }
 
     public function test_delete_account()
@@ -111,7 +109,7 @@ class AccountControllerTest extends TestCase
 
         $this->assertDatabaseHas('accounts', ['id' => $account->id]);
         $response = $this->actingAs($this->user)
-            ->deleteJson(route('api.v1.accounts.destroy', ['account' => $account->id]));
+            ->deleteJson(route('api.accounts.destroy', ['account' => $account->id]));
         $response->assertStatus(200);
         $this->assertDatabaseMissing('accounts', ['id' => $account->id]);
     }
@@ -123,7 +121,7 @@ class AccountControllerTest extends TestCase
 
         $this->assertDatabaseHas('accounts', ['id' => $account->id]);
         $response = $this->actingAs($this->user)
-            ->deleteJson(route('api.v1.accounts.destroy', ['account' => $account->id]));
+            ->deleteJson(route('api.accounts.destroy', ['account' => $account->id]));
         $response->assertStatus(404);
         $this->assertDatabaseHas('accounts', ['id' => $account->id]);
     }

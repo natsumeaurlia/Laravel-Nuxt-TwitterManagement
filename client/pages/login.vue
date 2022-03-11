@@ -8,8 +8,12 @@
       <div style="max-width: 344px" class="mx-auto">
         <div class="pt-6">
           <div>
-            <input-email v-model="email" />
-            <input-password v-model="password" />
+            <input-email v-model="email">
+              <template #label>メールアドレス</template>
+            </input-email>
+            <input-password v-model="password">
+              <template #label>パスワード</template>
+            </input-password>
           </div>
           <div class="pb-8">
             <v-btn
