@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <h1>アカウント管理</h1>
-    <add-form :show="createDialog" @close="createDialog = false"/>
+    <add-form v-model="form" :can-submit="canSubmit" :show="createDialog" @submit="onSubmit" @close="createDialog = false"/>
 
     <div class="mt-8"/>
     <v-data-table
@@ -34,7 +34,8 @@
 <script lang="ts">
 import { computed, defineComponent, ref, useFetch, useStore } from '@nuxtjs/composition-api'
 import addForm from '~/components/account/addForm.vue'
-import { StoreType } from "~/store/account";
+import { StoreType as AccountStore } from "~/store/account";
+import { useAccountForm } from "~/composables/useAccountForm";
 
 export default defineComponent({
   components: {
@@ -48,16 +49,28 @@ export default defineComponent({
       { text: 'screen name', value: 'screen_name' },
     ];
 
-    const store = useStore<StoreType>();
+    const store = useStore<AccountStore>();
+
     useFetch(() => {
       if (store.state.account.accounts.length === 0) {
-        store.dispatch('account/fetchAccounts')
+        store.dispatch('account/fetchAccounts');
       }
     })
 
-    const accounts = computed(() => store.state.account.accounts)
+    const accounts = computed(() => store.state.account.accounts);
 
-    return { createDialog, accounts, headers }
+    const { form, canSubmit, initializeForm } = useAccountForm();
+
+    const onSubmit = () => {
+      if (!canSubmit) {
+        return;
+      }
+      store.dispatch('account/createAccounts', { ...form });
+      createDialog.value = false;
+      initializeForm();
+    }
+
+    return { createDialog, accounts, headers, canSubmit, form, onSubmit }
   }
 })
 </script>

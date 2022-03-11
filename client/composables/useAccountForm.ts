@@ -1,4 +1,4 @@
-import { computed, SetupContext } from "@nuxtjs/composition-api";
+import { computed, reactive, SetupContext } from "@nuxtjs/composition-api";
 
 export interface TokenForm {
   token?: String
@@ -7,7 +7,19 @@ export interface TokenForm {
   consumerSecret?: String
 }
 
-export const useAccountForm = (props: { value: TokenForm }, emit: SetupContext['emit']) => {
+export const useAccountForm = () => {
+  const form = reactive<TokenForm>({ token: '', tokenSecret: '', consumerKey: '', consumerSecret: '', })
+  const canSubmit = computed(() => Object.values(form).every(value => Boolean(value)));
+  const initializeForm = () => {
+    form.token = '';
+    form.tokenSecret = '';
+    form.consumerKey = '';
+    form.consumerSecret = '';
+  }
+  return { form , canSubmit, initializeForm };
+}
+
+export const usePropAccountForm = (props: { value: TokenForm }, emit: SetupContext['emit']) => {
   const updateForm = (diff: any) => {
     emit('input', Object.assign(props.value, diff))
   }

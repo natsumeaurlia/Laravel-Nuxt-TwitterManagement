@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from '@nuxtjs/composition-api'
-import { TokenForm, useAccountForm } from "~/composables/useAccountForm";
+import { TokenForm, usePropAccountForm } from "~/composables/useAccountForm";
 
 export default defineComponent({
   props: {
@@ -85,7 +85,7 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const { token, tokenSecret, consumerKey, consumerSecret } = useAccountForm(props, emit);
+    const { token, tokenSecret, consumerKey, consumerSecret } = usePropAccountForm(props, emit);
     return { token, tokenSecret, consumerKey, consumerSecret }
   }
 })
