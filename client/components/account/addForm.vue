@@ -13,30 +13,52 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
+                v-model="token"
                 label="Access Token*"
                 required
               />
             </v-col>
             <v-col cols="12">
               <v-text-field
+                v-model="tokenSecret"
                 label="Secret Access Token*"
                 required
               />
             </v-col>
             <v-col cols="12">
               <v-text-field
+                v-model="consumerKey"
                 label="Consumer Key*"
                 required
               />
             </v-col>
             <v-col cols="12">
               <v-text-field
+                v-model="consumerSecret"
                 label="Secret Consumer Key*"
                 required
               />
             </v-col>
           </v-row>
         </v-container>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color='primary'
+            :disabled="!canSubmit"
+            text
+            @click="$emit('submit', $event)"
+          >
+            新規作成
+          </v-btn>
+          <v-btn
+            color="red darken-1"
+            text
+            @click="$emit('close', $event)"
+          >
+            閉じる
+          </v-btn>
+        </v-card-actions>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -44,7 +66,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, PropType } from '@nuxtjs/composition-api'
+import { TokenForm, useAccountForm } from "~/composables/useAccountForm";
 
 export default defineComponent({
   props: {
@@ -52,6 +75,18 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    value: {
+      type: Object as PropType<TokenForm>,
+      required: true
+    },
+    canSubmit: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props, { emit }) {
+    const { token, tokenSecret, consumerKey, consumerSecret } = useAccountForm(props, emit);
+    return { token, tokenSecret, consumerKey, consumerSecret }
   }
 })
 </script>
