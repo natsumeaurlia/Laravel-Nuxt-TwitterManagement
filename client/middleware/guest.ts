@@ -1,6 +1,6 @@
 import { Middleware, Context } from '@nuxt/types'
 
-const redirectTo = '/'
+const redirectTo = '/dashboard'
 
 const onlyGuest: Middleware = (context: Context) => {
   if (context.app.$auth.$state.loggedIn) {
