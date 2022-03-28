@@ -10,7 +10,7 @@
     />
 
     <div class="mt-8" />
-    <v-data-table :items="accounts" class="elevation-1" :headers="headers">
+    <v-data-table item-key="name" :items="accounts" class="elevation-1" :headers="headers">
       <template #top>
         <v-toolbar flat>
           <v-spacer></v-spacer>
