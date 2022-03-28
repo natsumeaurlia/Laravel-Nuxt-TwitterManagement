@@ -19,7 +19,15 @@
           </v-btn>
         </v-toolbar>
       </template>
-      <template #no-data> アカウントがありません。 </template>
+      <template #no-data> アカウントがありません。</template>
+      <template #item.action="{ item }">
+        <v-icon
+          small
+          @click="onDelete(item)"
+        >
+          mdi-delete
+        </v-icon>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -35,6 +43,7 @@ import {
 import addForm from '~/components/account/addForm.vue'
 import { StoreType as AccountStore } from '~/store/account'
 import { useAccountForm } from '~/composables/useAccountForm'
+import { Account } from "~/types/account";
 
 export default defineComponent({
   components: {
@@ -46,6 +55,7 @@ export default defineComponent({
     const headers = [
       { text: 'name', value: 'name' },
       { text: 'screen name', value: 'screen_name' },
+      { text: 'Action', value: 'action' },
     ]
 
     const store = useStore<AccountStore>()
@@ -69,7 +79,11 @@ export default defineComponent({
       initializeForm()
     }
 
-    return { createDialog, accounts, headers, canSubmit, form, onSubmit }
+    const onDelete = (account: Account) => {
+      store.dispatch('account/deleteAccount', account.id);
+    }
+
+    return { createDialog, accounts, headers, canSubmit, form, onSubmit, onDelete }
   },
 })
 </script>

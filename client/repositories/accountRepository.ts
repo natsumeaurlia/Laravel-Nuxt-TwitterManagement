@@ -22,4 +22,8 @@ export class AccountRepository {
       consumerSecret,
     })
   }
+
+  public destroy(id: Number) {
+    return this.axios.delete('api/accounts/' + id)
+  }
 }
