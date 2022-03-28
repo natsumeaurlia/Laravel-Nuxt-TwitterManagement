@@ -2,6 +2,7 @@ import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import { AxiosResponse } from 'axios'
 import { Account } from '~/types/account'
 
+
 export class AccountRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
 
@@ -23,7 +24,7 @@ export class AccountRepository {
     })
   }
 
-  public destroy(id: Number) {
+  public destroy(id: String) {
     return this.axios.delete('api/accounts/' + id)
   }
 }

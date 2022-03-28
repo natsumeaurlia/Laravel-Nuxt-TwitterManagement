@@ -23,7 +23,7 @@ export default {
   loading: '~/components/loading-spinner.vue',
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/repository.ts'],
+  plugins: ['~/plugins/repository.ts', '~/plugins/axios'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
