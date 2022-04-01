@@ -8,9 +8,25 @@
       @submit="onSubmit"
       @close="createDialog = false"
     />
+    <confirm-dialog :show="deleteDialog" @close="deleteDialog = false">
+      <template #title>アカウントを削除してよろしいですか？</template>
+      <template #actions>
+        <v-btn color="blue darken-1" text @click="deleteDialog = false"
+          >Cancel</v-btn
+        >
+        <v-btn color="red darken-1" text @click="onDelete(targetAccountId)"
+          >OK</v-btn
+        >
+      </template>
+    </confirm-dialog>
 
     <div class="mt-8" />
-    <v-data-table :items="accounts" class="elevation-1" :headers="headers">
+    <v-data-table
+      item-key="name"
+      :items="accounts"
+      class="elevation-1"
+      :headers="headers"
+    >
       <template #top>
         <v-toolbar flat>
           <v-spacer></v-spacer>
@@ -19,7 +35,18 @@
           </v-btn>
         </v-toolbar>
       </template>
-      <template #no-data> アカウントがありません。 </template>
+      <template #no-data> アカウントがありません。</template>
+      <template #item.action="{ item }">
+        <v-icon
+          small
+          @click="
+            deleteDialog = true
+            targetAccountId = item.id
+          "
+        >
+          mdi-delete
+        </v-icon>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -43,9 +70,13 @@ export default defineComponent({
   layout: 'authenticated',
   setup() {
     const createDialog = ref<Boolean>(false)
+    const deleteDialog = ref<Boolean>(false)
+    const targetAccountId = ref<String>('')
+
     const headers = [
       { text: 'name', value: 'name' },
       { text: 'screen name', value: 'screen_name' },
+      { text: 'Action', value: 'action' },
     ]
 
     const store = useStore<AccountStore>()
@@ -69,7 +100,22 @@ export default defineComponent({
       initializeForm()
     }
 
-    return { createDialog, accounts, headers, canSubmit, form, onSubmit }
+    const onDelete = (id: String) => {
+      store.dispatch('account/deleteAccount', id)
+      deleteDialog.value = false
+    }
+
+    return {
+      createDialog,
+      deleteDialog,
+      targetAccountId,
+      accounts,
+      headers,
+      canSubmit,
+      form,
+      onSubmit,
+      onDelete,
+    }
   },
 })
 </script>

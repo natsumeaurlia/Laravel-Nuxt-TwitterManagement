@@ -18,5 +18,11 @@ module.exports = {
     'no-useless-constructor': 'off',
     'import/named': 'off',
     'symbol-description': 'off',
+    'vue/valid-v-slot': [
+      'error',
+      {
+        allowModifiers: true,
+      },
+    ],
   },
 }

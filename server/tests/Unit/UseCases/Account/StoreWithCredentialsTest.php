@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\UseCases\User;
+namespace Tests\Unit\UseCases\Account;
 
 use App\Entities\Twitter\User;
 use App\Models\Account;

@@ -1,5 +1,5 @@
 export interface Account {
-  id: Number
+  id: String
   name: String
   screen_name: String
   avatar_path: String
