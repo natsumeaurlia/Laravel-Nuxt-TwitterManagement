@@ -8,7 +8,7 @@
         <v-container>
           <v-row>
             <v-col cols="12">
-              <v-text-field v-model="token" label="Access Token*" required/>
+              <v-text-field v-model="token" label="Access Token*" required />
             </v-col>
             <v-col cols="12">
               <v-text-field
@@ -72,7 +72,8 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const { token, tokenSecret, consumerKey, consumerSecret } = usePropAccountForm(props, emit)
+    const { token, tokenSecret, consumerKey, consumerSecret } =
+      usePropAccountForm(props, emit)
     return { token, tokenSecret, consumerKey, consumerSecret }
   },
 })

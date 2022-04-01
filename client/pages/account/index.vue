@@ -11,13 +11,22 @@
     <confirm-dialog :show="deleteDialog" @close="deleteDialog = false">
       <template #title>アカウントを削除してよろしいですか？</template>
       <template #actions>
-        <v-btn color="blue darken-1" text @click="deleteDialog = false">Cancel</v-btn>
-        <v-btn color="red darken-1" text @click="onDelete(targetAccountId)">OK</v-btn>
+        <v-btn color="blue darken-1" text @click="deleteDialog = false"
+          >Cancel</v-btn
+        >
+        <v-btn color="red darken-1" text @click="onDelete(targetAccountId)"
+          >OK</v-btn
+        >
       </template>
     </confirm-dialog>
 
-    <div class="mt-8"/>
-    <v-data-table item-key="name" :items="accounts" class="elevation-1" :headers="headers">
+    <div class="mt-8" />
+    <v-data-table
+      item-key="name"
+      :items="accounts"
+      class="elevation-1"
+      :headers="headers"
+    >
       <template #top>
         <v-toolbar flat>
           <v-spacer></v-spacer>
@@ -30,7 +39,10 @@
       <template #item.action="{ item }">
         <v-icon
           small
-          @click="deleteDialog = true; targetAccountId = item.id"
+          @click="
+            deleteDialog = true
+            targetAccountId = item.id
+          "
         >
           mdi-delete
         </v-icon>
@@ -40,7 +52,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useFetch, useStore, } from '@nuxtjs/composition-api'
+import {
+  computed,
+  defineComponent,
+  ref,
+  useFetch,
+  useStore,
+} from '@nuxtjs/composition-api'
 import addForm from '~/components/account/addForm.vue'
 import { StoreType as AccountStore } from '~/store/account'
 import { useAccountForm } from '~/composables/useAccountForm'
@@ -83,11 +101,21 @@ export default defineComponent({
     }
 
     const onDelete = (id: String) => {
-      store.dispatch('account/deleteAccount', id);
-      deleteDialog.value = false;
+      store.dispatch('account/deleteAccount', id)
+      deleteDialog.value = false
     }
 
-    return { createDialog, deleteDialog, targetAccountId, accounts, headers, canSubmit, form, onSubmit, onDelete }
+    return {
+      createDialog,
+      deleteDialog,
+      targetAccountId,
+      accounts,
+      headers,
+      canSubmit,
+      form,
+      onSubmit,
+      onDelete,
+    }
   },
 })
 </script>

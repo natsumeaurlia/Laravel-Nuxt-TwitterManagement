@@ -1,5 +1,9 @@
 <template>
-  <v-dialog :value="show" :max-width="maxWidth || '600px'" @input="$emit('close', $event)">
+  <v-dialog
+    :value="show"
+    :max-width="maxWidth || '600px'"
+    @input="$emit('close', $event)"
+  >
     <v-card>
       <v-card-title class="text-h5">
         <slot name="title"></slot>
@@ -14,10 +18,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api";
+import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  name: "ConfirmDialog",
+  name: 'ConfirmDialog',
   props: {
     show: {
       type: Boolean,
@@ -26,11 +30,9 @@ export default defineComponent({
     maxWidth: {
       type: Number,
       default: null,
-    }
+    },
   },
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

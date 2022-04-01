@@ -2,11 +2,11 @@ import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import { AxiosResponse } from 'axios'
 import { Account } from '~/types/account'
 
-const JsonBigInt = require('json-bigint');
+const JsonBigInt = require('json-bigint')
 
 export class AccountRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {
-    axios.defaults.transformResponse = (data) => JsonBigInt.parse(data);
+    axios.defaults.transformResponse = (data) => JsonBigInt.parse(data)
   }
 
   public fetchAll(): Promise<AxiosResponse<Account[]>> {

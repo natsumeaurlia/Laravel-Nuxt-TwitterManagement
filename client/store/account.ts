@@ -26,10 +26,10 @@ export const getters: GetterTree<RootState, RootState> = {
 export const mutations: MutationTree<RootState> = {
   SET_ACCOUNTS: (state, accounts: Account[]) => (state.accounts = accounts),
   ADD_ACCOUNT: (state, account: Account) => state.accounts.push(account),
-  DELETE_ACCOUNT:(state, id: String) => {
-    const index = state.accounts.findIndex(account => account.id === id)
+  DELETE_ACCOUNT: (state, id: String) => {
+    const index = state.accounts.findIndex((account) => account.id === id)
     state.accounts.splice(index, 1)
-  }
+  },
 }
 
 export const actions: ActionTree<RootState, RootState> = {
@@ -61,10 +61,10 @@ export const actions: ActionTree<RootState, RootState> = {
   },
   async deleteAccount({ commit }, id: String) {
     try {
-      await this.$accountRepository.destroy(id);
+      await this.$accountRepository.destroy(id)
       commit('DELETE_ACCOUNT', id)
     } catch (err) {
       // todo: エラーメッセージの表示
     }
-  }
+  },
 }
