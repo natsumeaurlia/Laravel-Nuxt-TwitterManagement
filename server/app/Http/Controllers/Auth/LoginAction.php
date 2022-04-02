@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\LoginResource;
 use App\UseCases\User\Login;
 
-class LoginController extends Controller
+class LoginAction extends Controller
 {
     public function __invoke(LoginRequest $request, Login $login)
     {

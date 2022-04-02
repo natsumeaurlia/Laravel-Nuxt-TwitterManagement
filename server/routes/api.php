@@ -2,8 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Auth\{LoginAction, RegisterAction};
 use App\Http\Controllers\AccountController;
 
 /*
@@ -18,8 +17,8 @@ use App\Http\Controllers\AccountController;
 */
 
 Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
-    Route::post('register', RegisterController::class)->name('register');
-    Route::post('login', LoginController::class)->name('login');
+    Route::post('register', RegisterAction::class)->name('register');
+    Route::post('login', LoginAction::class)->name('login');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
