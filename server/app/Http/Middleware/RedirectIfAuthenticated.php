@@ -28,7 +28,7 @@ class RedirectIfAuthenticated
             // apiへのアクセスは403を返す
             /** @phpstan-ignore-next-line */
             if ($request->route()->named('api.*')) {
-                abort(403);
+                abort(403, 'Already logged in.');
             }
             return redirect(RouteServiceProvider::HOME);
         }
