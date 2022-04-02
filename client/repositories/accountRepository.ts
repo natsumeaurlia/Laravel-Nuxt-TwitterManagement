@@ -8,7 +8,9 @@ export class AccountRepository {
   constructor(private readonly axios: NuxtAxiosInstance) {}
 
   public fetchAll(): Promise<AxiosResponse<Account[]>> {
-    return this.axios.get<Account[]>('api/accounts', { transformResponse: data => JsonBigInt.parse(data) })
+    return this.axios.get<Account[]>('api/accounts', {
+      transformResponse: (data) => JsonBigInt.parse(data),
+    })
   }
 
   public store(
