@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Controllers;
+namespace Tests\Feature\Controllers\Auth;
 
 use App\Models\User;
 use App\UseCases\User\Login;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class LoginControllerTest extends TestCase
+class LoginActionTest extends TestCase
 {
     use RefreshDatabase;
 
