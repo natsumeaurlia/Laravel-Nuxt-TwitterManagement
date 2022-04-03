@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\{LoginAction, RegisterAction, ShowUserAction};
-use App\Http\Controllers\AccountController;
+use App\Http\Controllers\{AccountController, TaskController};
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +23,5 @@ Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', ShowUserAction::class)->name('show.user');
     Route::apiResource('accounts', AccountController::class);
+    Route::apiResource('tasks', TaskController::class);
 });
