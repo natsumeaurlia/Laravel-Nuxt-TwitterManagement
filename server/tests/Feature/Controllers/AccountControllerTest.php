@@ -46,7 +46,7 @@ class AccountControllerTest extends TestCase
 
         $response = $this->actingAs($this->user)->postJson(route('api.accounts.store'), $this->makeToken());
 
-        $response->assertCreated()
+        $response->assertSuccessful()
             ->assertJson([
                 'id' => $account->id,
                 'name' => $account->name,
@@ -68,6 +68,28 @@ class AccountControllerTest extends TestCase
         $response->assertStatus(422);
     }
 
+    public function test_update_token()
+    {
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
+
+        // token系はhiddenにしているため、一度保管
+        $keys = $this->makeToken();
+        $updatedAccount = Account::factory()->make(array_merge(['id' => $account->id], $keys));
+        $this->mockStoreWithCredentials($updatedAccount);
+
+        $response = $this->actingAs($this->user)
+            ->postJson(route('api.accounts.store'), $keys);
+
+        $response->assertStatus(200)->assertJson([
+            'id' => $account->id,
+            'name' => $updatedAccount->name,
+            'screen_name' => $updatedAccount->screen_name,
+            'avatar_path' => $updatedAccount->avatar_path
+        ]);
+        $this->assertFalse(isset($response['access_token']));
+        $this->assertFalse(isset($response['access_token_secret']));
+    }
+
     public function test_show_my_account()
     {
         $account = Account::factory()->create(['user_id' => $this->user->id]);
@@ -81,28 +103,6 @@ class AccountControllerTest extends TestCase
         $account = Account::factory()->create(['user_id' => $otherUser->id]);
         $response = $this->actingAs($this->user)->getJson(route('api.accounts.show', ['account' => $account->id]));
         $response->assertStatus(403);
-    }
-
-    public function test_update_account()
-    {
-        $account = Account::factory()->create(['user_id' => $this->user->id]);
-
-        // token系はhiddenにしているため、一度保管
-        $keys = $this->makeToken();
-        $updatedAccount = Account::factory()->make(array_merge(['id' => $account->id], $keys));
-        $this->mockStoreWithCredentials($updatedAccount);
-
-        $response = $this->actingAs($this->user)
-            ->putJson(route('api.accounts.update', ['account' => $account->id]), $keys);
-
-        $response->assertStatus(200)->assertJson([
-            'id' => $updatedAccount->id,
-            'name' => $updatedAccount->name,
-            'screen_name' => $updatedAccount->screen_name,
-            'avatar_path' => $updatedAccount->avatar_path
-        ]);
-        $this->assertFalse(isset($response['access_token']));
-        $this->assertFalse(isset($response['access_token_secret']));
     }
 
     public function test_delete_account()

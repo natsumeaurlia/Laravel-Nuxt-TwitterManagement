@@ -25,11 +25,6 @@ class AccountPolicy
         return true;
     }
 
-    public function update(User $user, Account $account)
-    {
-        return $user->id === $account->user_id;
-    }
-
     public function delete(User $user, Account $account)
     {
         return $user->id === $account->user_id;

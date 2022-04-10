@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Account\StoreOrUpdateRequest;
+use App\Http\Requests\Account\StoreRequest;
 use App\Http\Resources\AccountCollection;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
@@ -26,7 +26,10 @@ class AccountController extends Controller
         return new AccountCollection($accounts);
     }
 
-    public function store(StoreOrUpdateRequest $request, StoreWithCredentials $store)
+    /**
+     * Twitterの認証を用いてアカウントの作成または更新をする
+     */
+    public function store(StoreRequest $request, StoreWithCredentials $store)
     {
         $user = Auth::user();
         try {
@@ -40,29 +43,12 @@ class AccountController extends Controller
         } catch (MissingCredentialException $e) {
             throw ValidationException::withMessages(['token' => 'Given invalid token.']);
         }
-        return (new AccountResource($storedAccount))->response()->setStatusCode(Response::HTTP_CREATED);
+        return new AccountResource($storedAccount);
     }
 
     public function show(Account $account)
     {
         return new AccountResource($account);
-    }
-
-    public function update(Account $account, StoreOrUpdateRequest $request, StoreWithCredentials $store)
-    {
-        $user = Auth::user();
-        try {
-            $updatedAccount = $store(
-                $user,
-                $request->accessToken,
-                $request->accessTokenSecret,
-                $request->consumerKey,
-                $request->consumerSecret
-            );
-        } catch (MissingCredentialException $e) {
-            throw ValidationException::withMessages(['token' => 'Given invalid token.']);
-        }
-        return new AccountResource($updatedAccount);
     }
 
     public function destroy(Account $account)
