@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\CreatingUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Task extends Model
 {
     use HasFactory;
+    use CreatingUuid;
+
+    public const MAX_SLEEP_TIME = 20;
 
     public $fillable = [
         'name',

@@ -47,6 +47,11 @@ class Account extends Model
         return $this->hasMany(AccountTransition::class);
     }
 
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
+
     /**
      * 暗号化してトークンを保存.
      * @param string $accessToken
