@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class, 'task');
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -26,40 +31,22 @@ class TaskController extends Controller
         return (new TaskResource($task))->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(string $uuid)
+    public function show(Task $task)
     {
-        $user = Auth::user();
-        $task = $user->tasks()->firstWhere(['uuid' => $uuid]);
-        if (!$task) {
-            return response()->json(['message' => 'target task not found.'], Response::HTTP_NOT_FOUND);
-        }
-
         return new TaskResource($task);
     }
 
-    public function update(StoreOrUpdateRequest $request, $uuid)
+    public function update(StoreOrUpdateRequest $request, Task $task)
     {
         $attributes = $request->validated();
-        $user = Auth::user();
-        $task = $user->tasks()->firstWhere(['uuid' => $uuid]);
-
-        if (!$task) {
-            return response()->json(['message' => 'target task not found.'], Response::HTTP_NOT_FOUND);
-        }
         $task = $task->fill($attributes);
-        if ($task->save()) {
-            return new TaskResource($task);
-        }
-        return response()->json(['message' => 'failed to update task.'], Response::HTTP_NOT_FOUND);
+        $task->save();
+        return new TaskResource($task);
     }
 
-    public function destroy(string $uuid)
+    public function destroy(Task $task)
     {
-        $user = Auth::user();
-        $task = $user->tasks()->firstWhere(['uuid' => $uuid]);
-        if ($task && $task->delete()) {
-            return response()->json(['message' => 'task deleted.']);
-        }
-        return response()->json(['message' => 'task not found.'], Response::HTTP_NOT_FOUND);
+        $task->delete();
+        return response()->json(['message' => 'task deleted.']);
     }
 }
