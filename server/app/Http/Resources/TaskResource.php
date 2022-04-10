@@ -18,6 +18,7 @@ class TaskResource extends JsonResource
             'range_min_sleep_time' => $this->range_min_sleep_time,
             'type' => $this->type,
             'is_enable' => $this->is_enable,
+            'account' => new AccountResource($this->account),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
