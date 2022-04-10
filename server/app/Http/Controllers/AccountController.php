@@ -14,6 +14,11 @@ use Illuminate\Validation\ValidationException;
 
 class AccountController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Account::class, 'account');
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -40,13 +45,10 @@ class AccountController extends Controller
 
     public function show(Account $account)
     {
-        if ($account->user_id !== Auth::id()) {
-            return response()->json(['message' => 'account not found.'], Response::HTTP_NOT_FOUND);
-        }
         return new AccountResource($account);
     }
 
-    public function update(StoreOrUpdateRequest $request, StoreWithCredentials $store)
+    public function update(Account $account, StoreOrUpdateRequest $request, StoreWithCredentials $store)
     {
         $user = Auth::user();
         try {
@@ -65,9 +67,7 @@ class AccountController extends Controller
 
     public function destroy(Account $account)
     {
-        if ($account->user_id === Auth::id() && $account->delete()) {
-            return response()->json(['message' => 'account deleted.']);
-        }
-        return response()->json(['message' => 'account not found.'], Response::HTTP_NOT_FOUND);
+        $account->delete();
+        return response()->json(['message' => 'account deleted.']);
     }
 }
