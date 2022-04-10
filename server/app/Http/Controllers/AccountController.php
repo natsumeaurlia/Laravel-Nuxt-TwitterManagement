@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Account\UpdateOrCreateRequest;
+use App\Http\Requests\Account\StoreOrUpdateRequest;
 use App\Http\Resources\AccountCollection;
 use App\Http\Resources\AccountResource;
+use App\Models\Account;
 use App\UseCases\Account\Exception\MissingCredentialException;
 use App\UseCases\Account\StoreWithCredentials;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -20,7 +21,7 @@ class AccountController extends Controller
         return new AccountCollection($accounts);
     }
 
-    public function store(UpdateOrCreateRequest $request, StoreWithCredentials $store)
+    public function store(StoreOrUpdateRequest $request, StoreWithCredentials $store)
     {
         $user = Auth::user();
         try {
@@ -34,20 +35,18 @@ class AccountController extends Controller
         } catch (MissingCredentialException $e) {
             throw ValidationException::withMessages(['token' => 'Given invalid token.']);
         }
-        return (new AccountResource($storedAccount))->response()->setStatusCode(201);
+        return (new AccountResource($storedAccount))->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show($id)
+    public function show(Account $account)
     {
-        $user = Auth::user();
-        $account = $user->accounts()->find($id);
-        if (!$account) {
-            return response()->json(['message' => 'account not found.'], 404);
+        if ($account->user_id !== Auth::id()) {
+            return response()->json(['message' => 'account not found.'], Response::HTTP_NOT_FOUND);
         }
         return new AccountResource($account);
     }
 
-    public function update(UpdateOrCreateRequest $request, StoreWithCredentials $store)
+    public function update(StoreOrUpdateRequest $request, StoreWithCredentials $store)
     {
         $user = Auth::user();
         try {
@@ -64,13 +63,11 @@ class AccountController extends Controller
         return new AccountResource($updatedAccount);
     }
 
-    public function destroy($id)
+    public function destroy(Account $account)
     {
-        $user = Auth::user();
-        $account = $user->accounts()->find($id);
-        if ($account && $account->delete()) {
+        if ($account->user_id === Auth::id() && $account->delete()) {
             return response()->json(['message' => 'account deleted.']);
         }
-        return response()->json(['message' => 'account not found.'], 404);
+        return response()->json(['message' => 'account not found.'], Response::HTTP_NOT_FOUND);
     }
 }
