@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Task extends Model
 {
@@ -41,5 +42,17 @@ class Task extends Model
     public function taskLogs(): HasMany
     {
         return $this->hasMany(TaskLog::class);
+    }
+
+    public function user(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            User::class,
+            Account::class,
+            'id',
+            'id',
+            'account_id',
+            'user_id'
+        );
     }
 }

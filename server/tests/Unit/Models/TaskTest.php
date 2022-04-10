@@ -20,6 +20,7 @@ class TaskTest extends TestCase
 
         $this->assertNotNull($task->account()->first());
         $this->assertNotNull($task->taskLogs()->get());
+        $this->assertNotNull($task->user()->first());
         $this->assertCount(2, $task->taskLogs()->get());
     }
 }
