@@ -5,7 +5,6 @@ namespace App\Http\Requests\Task;
 use App\Enums\TaskType;
 use App\Models\Task;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class StoreOrUpdateRequest extends FormRequest
@@ -27,7 +26,7 @@ class StoreOrUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $accounts = Auth::user()->accounts()->pluck('id');
+        $accounts = $this->user()->accounts()->pluck('id');
         $sleepTime = Task::MAX_SLEEP_TIME;
         return [
             'account_id' => ['required', Rule::in($accounts->toArray())],
