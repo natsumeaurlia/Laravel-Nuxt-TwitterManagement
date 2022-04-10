@@ -6,6 +6,7 @@ use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 
 class RedirectIfAuthenticated
 {
@@ -28,7 +29,7 @@ class RedirectIfAuthenticated
             // apiへのアクセスは403を返す
             /** @phpstan-ignore-next-line */
             if ($request->route()->named('api.*')) {
-                abort(403, 'Already logged in.');
+                abort(Response::HTTP_FORBIDDEN, 'Already logged in.');
             }
             return redirect(RouteServiceProvider::HOME);
         }
