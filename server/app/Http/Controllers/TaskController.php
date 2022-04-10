@@ -2,83 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Task\StoreOrUpdateRequest;
+use App\Http\Resources\TaskCollection;
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $tasks = $user->tasks()->get();
+        return new TaskCollection($tasks);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(StoreOrUpdateRequest $request)
     {
-        //
+        $attributes = $request->validated();
+
+        $task = Task::create($attributes);
+        return (new TaskResource($task))->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show(string $uuid)
     {
-        //
+        $user = Auth::user();
+        $task = $user->tasks()->firstWhere(['uuid' => $uuid]);
+        if (!$task) {
+            return response()->json(['message' => 'target task not found.'], Response::HTTP_NOT_FOUND);
+        }
+
+        return new TaskResource($task);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function update(StoreOrUpdateRequest $request, $uuid)
     {
-        //
+        $attributes = $request->validated();
+        $user = Auth::user();
+        $task = $user->tasks()->firstWhere(['uuid' => $uuid]);
+
+        if (!$task) {
+            return response()->json(['message' => 'target task not found.'], Response::HTTP_NOT_FOUND);
+        }
+        $task = $task->fill($attributes);
+        if ($task->save()) {
+            return new TaskResource($task);
+        }
+        return response()->json(['message' => 'failed to update task.'], Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function destroy(string $uuid)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $user = Auth::user();
+        $task = $user->tasks()->firstWhere(['uuid' => $uuid]);
+        if ($task && $task->delete()) {
+            return response()->json(['message' => 'task deleted.']);
+        }
+        return response()->json(['message' => 'task not found.'], Response::HTTP_NOT_FOUND);
     }
 }
