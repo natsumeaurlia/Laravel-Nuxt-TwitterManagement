@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Account\UpdateOrCreateRequest;
+use App\Http\Requests\Account\StoreRequest;
 use App\Http\Resources\AccountCollection;
 use App\Http\Resources\AccountResource;
+use App\Models\Account;
 use App\UseCases\Account\Exception\MissingCredentialException;
 use App\UseCases\Account\StoreWithCredentials;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AccountController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Account::class, 'account');
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -20,7 +26,10 @@ class AccountController extends Controller
         return new AccountCollection($accounts);
     }
 
-    public function store(UpdateOrCreateRequest $request, StoreWithCredentials $store)
+    /**
+     * Twitterの認証を用いてアカウントの作成または更新をする
+     */
+    public function store(StoreRequest $request, StoreWithCredentials $store)
     {
         $user = Auth::user();
         try {
@@ -34,43 +43,17 @@ class AccountController extends Controller
         } catch (MissingCredentialException $e) {
             throw ValidationException::withMessages(['token' => 'Given invalid token.']);
         }
-        return (new AccountResource($storedAccount))->response()->setStatusCode(201);
+        return new AccountResource($storedAccount);
     }
 
-    public function show($id)
+    public function show(Account $account)
     {
-        $user = Auth::user();
-        $account = $user->accounts()->find($id);
-        if (!$account) {
-            return response()->json(['message' => 'account not found.'], 404);
-        }
         return new AccountResource($account);
     }
 
-    public function update(UpdateOrCreateRequest $request, StoreWithCredentials $store)
+    public function destroy(Account $account)
     {
-        $user = Auth::user();
-        try {
-            $updatedAccount = $store(
-                $user,
-                $request->accessToken,
-                $request->accessTokenSecret,
-                $request->consumerKey,
-                $request->consumerSecret
-            );
-        } catch (MissingCredentialException $e) {
-            throw ValidationException::withMessages(['token' => 'Given invalid token.']);
-        }
-        return new AccountResource($updatedAccount);
-    }
-
-    public function destroy($id)
-    {
-        $user = Auth::user();
-        $account = $user->accounts()->find($id);
-        if ($account && $account->delete()) {
-            return response()->json(['message' => 'account deleted.']);
-        }
-        return response()->json(['message' => 'account not found.'], 404);
+        $account->delete();
+        return response()->json(['message' => 'account deleted.']);
     }
 }

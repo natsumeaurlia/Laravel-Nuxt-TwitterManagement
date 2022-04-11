@@ -44,9 +44,9 @@ class AccountControllerTest extends TestCase
         $account = Account::factory()->create(['user_id' => $this->user->id]);
         $this->mockStoreWithCredentials($account);
 
-        $response = $this->actingAs($this->user)->postJson(route('api.accounts.store', $this->makeToken()));
+        $response = $this->actingAs($this->user)->postJson(route('api.accounts.store'), $this->makeToken());
 
-        $response->assertCreated()
+        $response->assertSuccessful()
             ->assertJson([
                 'id' => $account->id,
                 'name' => $account->name,
@@ -63,9 +63,31 @@ class AccountControllerTest extends TestCase
             $mock->shouldReceive('__invoke')->once()->andThrow(MissingCredentialException::class);
         });
 
-        $response = $this->actingAs($this->user)->postJson(route('api.accounts.store', $this->makeToken()));
+        $response = $this->actingAs($this->user)->postJson(route('api.accounts.store'), $this->makeToken());
 
         $response->assertStatus(422);
+    }
+
+    public function test_update_token()
+    {
+        $account = Account::factory()->create(['user_id' => $this->user->id]);
+
+        // token系はhiddenにしているため、一度保管
+        $keys = $this->makeToken();
+        $updatedAccount = Account::factory()->make(array_merge(['id' => $account->id], $keys));
+        $this->mockStoreWithCredentials($updatedAccount);
+
+        $response = $this->actingAs($this->user)
+            ->postJson(route('api.accounts.store'), $keys);
+
+        $response->assertStatus(200)->assertJson([
+            'id' => $account->id,
+            'name' => $updatedAccount->name,
+            'screen_name' => $updatedAccount->screen_name,
+            'avatar_path' => $updatedAccount->avatar_path
+        ]);
+        $this->assertFalse(isset($response['access_token']));
+        $this->assertFalse(isset($response['access_token_secret']));
     }
 
     public function test_show_my_account()
@@ -75,32 +97,12 @@ class AccountControllerTest extends TestCase
         $response->assertStatus(200)->assertJson(['id' => $account->id, 'name' => $account->name]);
     }
 
-    public function test_show_not_found_other_user_account()
+    public function test_show_not_allow_other_user_account()
     {
         $otherUser = User::factory()->create();
         $account = Account::factory()->create(['user_id' => $otherUser->id]);
         $response = $this->actingAs($this->user)->getJson(route('api.accounts.show', ['account' => $account->id]));
-        $response->assertNotFound();
-    }
-
-    public function test_update_account()
-    {
-        $account = Account::factory()->create(['user_id' => $this->user->id]);
-        $updatedAccount = Account::factory()->make(['id' => $account->id]);
-
-        $this->mockStoreWithCredentials($updatedAccount);
-
-        $response = $this->actingAs($this->user)
-            ->putJson(route('api.accounts.update', array_merge($this->makeToken(), ['account' => $account->id])));
-
-        $response->assertStatus(200)->assertJson([
-            'id' => $updatedAccount->id,
-            'name' => $updatedAccount->name,
-            'screen_name' => $updatedAccount->screen_name,
-            'avatar_path' => $updatedAccount->avatar_path
-        ]);
-        $this->assertFalse(isset($response['access_token']));
-        $this->assertFalse(isset($response['access_token_secret']));
+        $response->assertStatus(403);
     }
 
     public function test_delete_account()
@@ -116,13 +118,13 @@ class AccountControllerTest extends TestCase
 
     public function test_failed_delete_other_user_account()
     {
-        $user = User::factory()->create();
-        $account = Account::factory()->create(['user_id' => $user->id]);
+        $otherUser = User::factory()->create();
+        $account = Account::factory()->create(['user_id' => $otherUser->id]);
 
         $this->assertDatabaseHas('accounts', ['id' => $account->id]);
         $response = $this->actingAs($this->user)
             ->deleteJson(route('api.accounts.destroy', ['account' => $account->id]));
-        $response->assertStatus(404);
+        $response->assertStatus(403);
         $this->assertDatabaseHas('accounts', ['id' => $account->id]);
     }
 

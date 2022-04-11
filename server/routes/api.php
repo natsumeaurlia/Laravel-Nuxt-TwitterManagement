@@ -22,6 +22,6 @@ Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', ShowUserAction::class)->name('show.user');
-    Route::apiResource('accounts', AccountController::class);
+    Route::apiResource('accounts', AccountController::class)->except('update');
     Route::apiResource('tasks', TaskController::class)->scoped(['task' => 'uuid']); // バインディングでuuidを使用するようにする
 });

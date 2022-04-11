@@ -63,6 +63,14 @@ class TaskControllerTest extends TestCase
             ]);
     }
 
+    public function test_failed_show_other_user_task()
+    {
+        $task = Task::factory()->create();
+        $response = $this->actingAs($this->user)->get(route('api.tasks.show', ['task' => $task->uuid]));
+        $response->assertForbidden();
+    }
+
+
     public function test_update_task()
     {
         /** @var Task $task */
@@ -80,11 +88,27 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', ['uuid' => $task->uuid]);
     }
 
+    public function test_failed_update_other_user_tasks()
+    {
+        $task = Task::factory()->create();
+        $account = $this->user->accounts()->first();
+        $updateTask = Task::factory()->make(['account_id' => $account->id]);
+        $response = $this->actingAs($this->user)->putJson(route('api.tasks.update', ['task' => $task->uuid]), $updateTask->toArray());
+        $response->assertForbidden();
+    }
+
     public function test_delete_tasks()
     {
         $task = $this->tasks->random();
         $response = $this->actingAs($this->user)->deleteJson(route('api.tasks.destroy', ['task' => $task->uuid]));
         $response->assertSuccessful();
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
+    }
+
+    public function test_failed_delete_other_user_tasks()
+    {
+        $task = Task::factory()->create();
+        $response = $this->actingAs($this->user)->deleteJson(route('api.tasks.destroy', ['task' => $task->uuid]));
+        $response->assertForbidden();
     }
 }

@@ -43,4 +43,16 @@ class Task extends Model
     {
         return $this->hasMany(TaskLog::class);
     }
+
+    public function user(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            User::class,
+            Account::class,
+            'id',
+            'id',
+            'account_id',
+            'user_id'
+        );
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class RegisterResource extends JsonResource
 {
@@ -17,6 +18,6 @@ class RegisterResource extends JsonResource
 
     public function withResponse($request, $response)
     {
-        $response->setStatusCode(201);
+        $response->setStatusCode(Response::HTTP_CREATED);
     }
 }

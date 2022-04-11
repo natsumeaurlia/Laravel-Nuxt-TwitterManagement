@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\LoginResource;
 use App\UseCases\User\Login;
+use Illuminate\Http\Response;
 
 class LoginAction extends Controller
 {
@@ -14,6 +15,6 @@ class LoginAction extends Controller
         if ($user = $login->handle($request->email, $request->password)) {
             return new LoginResource($user);
         }
-        return response()->json(['message' => 'failed login'], 422);
+        return response()->json(['message' => 'failed login'], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
