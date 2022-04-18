@@ -4,6 +4,7 @@ export const useNav = () => {
   const items: NavItems = [
     { icon: 'mdi-speedometer', name: 'ダッシュボード', to: '/dashboard' },
     { icon: 'mdi-account', name: 'アカウント管理', to: '/account' },
+    { icon: 'mdi-timer', name: '定期タスク管理', to: '/task' },
   ]
   return { items }
 }
