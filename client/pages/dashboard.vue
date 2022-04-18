@@ -17,23 +17,14 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  useFetch,
-  useStore,
-} from '@nuxtjs/composition-api'
+import { computed, defineComponent, useStore, } from '@nuxtjs/composition-api'
 import { StoreType } from '~/store/account'
 
 export default defineComponent({
   layout: 'authenticated',
+  middleware: 'fetchAccounts',
   setup() {
     const store = useStore<StoreType>()
-    useFetch(() => {
-      if (store.state.account.accounts.length === 0) {
-        store.dispatch('account/fetchAccounts')
-      }
-    })
     const accountCounts = computed(() => store.state.account.accounts.length)
     return { accountCounts }
   },

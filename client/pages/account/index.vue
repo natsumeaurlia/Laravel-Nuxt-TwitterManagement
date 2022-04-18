@@ -52,13 +52,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  useFetch,
-  useStore,
-} from '@nuxtjs/composition-api'
+import { computed, defineComponent, ref, useStore } from '@nuxtjs/composition-api'
 import addForm from '~/components/account/addForm.vue'
 import { StoreType as AccountStore } from '~/store/account'
 import { useAccountForm } from '~/composables/useAccountForm'
@@ -68,6 +62,7 @@ export default defineComponent({
     addForm,
   },
   layout: 'authenticated',
+  middleware: 'fetchAccounts',
   setup() {
     const createDialog = ref<Boolean>(false)
     const deleteDialog = ref<Boolean>(false)
@@ -80,12 +75,6 @@ export default defineComponent({
     ]
 
     const store = useStore<AccountStore>()
-
-    useFetch(() => {
-      if (store.state.account.accounts.length === 0) {
-        store.dispatch('account/fetchAccounts')
-      }
-    })
 
     const accounts = computed(() => store.state.account.accounts)
 
