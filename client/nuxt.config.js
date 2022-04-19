@@ -46,8 +46,8 @@ export default {
     defaultTimeZone: 'Asia/Tokyo',
     plugins: [
       'utc', // import 'dayjs/plugin/utc'
-      'timezone' // import 'dayjs/plugin/timezone'
-    ]
+      'timezone', // import 'dayjs/plugin/timezone'
+    ],
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

@@ -52,7 +52,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, useStore } from '@nuxtjs/composition-api'
+import {
+  computed,
+  defineComponent,
+  ref,
+  useStore,
+} from '@nuxtjs/composition-api'
 import addForm from '~/components/account/addForm.vue'
 import { StoreType as AccountStore } from '~/store/account'
 import { useAccountForm } from '~/composables/useAccountForm'

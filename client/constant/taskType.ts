@@ -1,5 +1,5 @@
 const TASK_TYPE = {
-  FOLLOW : 'follow',
+  FOLLOW: 'follow',
   FAVORITE: 'favorite',
   RETWEET: 'retweet',
   UNFOLLOW: 'unfollow',

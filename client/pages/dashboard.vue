@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, useStore, } from '@nuxtjs/composition-api'
+import { computed, defineComponent, useStore } from '@nuxtjs/composition-api'
 import { StoreType } from '~/store/account'
 
 export default defineComponent({

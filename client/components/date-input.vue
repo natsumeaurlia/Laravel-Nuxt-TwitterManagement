@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-menu
-      min-width="auto"
-      offset-y
-      bottom
-    >
+    <v-menu min-width="auto" offset-y bottom>
       <template #activator="{ on, attrs }">
         <v-text-field
           :value="value"
@@ -17,13 +13,13 @@
           v-on="on"
         />
       </template>
-      <v-date-picker locale="ja" @input="$emit('input', $event)"/>
+      <v-date-picker locale="ja" @input="$emit('input', $event)" />
     </v-menu>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@nuxtjs/composition-api";
+import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   name: 'DateInput',
@@ -31,22 +27,20 @@ export default defineComponent({
     value: [String, Number],
     icon: {
       type: String,
-      default: 'mdi-calendar'
+      default: 'mdi-calendar',
     },
     label: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   setup(_, context) {
     const clearDate = () => {
       context.emit('input', '')
     }
     return { clearDate }
-  }
+  },
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
