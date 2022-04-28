@@ -5,6 +5,7 @@
     :height="height"
     outlined
     :placeholder="placeholder"
+    :label="label"
     @input="$emit('input', $event)"
   >
     <template #label>
@@ -25,6 +26,10 @@ export default defineComponent({
     },
     value: [String, Number],
     placeholder: {
+      type: String,
+      required: false,
+    },
+    label: {
       type: String,
       required: false,
     },
