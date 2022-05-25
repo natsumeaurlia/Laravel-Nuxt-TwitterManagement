@@ -31,7 +31,7 @@ export default defineComponent({
       required: false,
     },
   },
-  data() {
+  setup() {
     return {
       // emailRules: {
       //   required: (value: string | boolean) =>

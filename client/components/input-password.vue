@@ -35,7 +35,7 @@ export default defineComponent({
       required: false,
     },
   },
-  data() {
+  setup() {
     return {
       passwordShow: false,
       passwordRules: {
