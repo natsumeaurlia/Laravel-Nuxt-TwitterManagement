@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Account\StoreRequest;
-use App\Http\Resources\AccountCollection;
 use App\Http\Resources\AccountResource;
 use App\Models\Account;
 use App\UseCases\Account\Exception\MissingCredentialException;
@@ -23,7 +22,7 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         $accounts = $user->accounts()->get();
-        return new AccountCollection($accounts);
+        return AccountResource::collection($accounts);
     }
 
     /**

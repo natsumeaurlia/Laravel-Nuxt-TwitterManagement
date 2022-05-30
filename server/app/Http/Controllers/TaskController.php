@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Task\StoreOrUpdateRequest;
-use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Response;
@@ -20,7 +19,7 @@ class TaskController extends Controller
     {
         $user = Auth::user();
         $tasks = $user->tasks()->get();
-        return new TaskCollection($tasks);
+        return TaskResource::collection($tasks);
     }
 
     public function store(StoreOrUpdateRequest $request)
