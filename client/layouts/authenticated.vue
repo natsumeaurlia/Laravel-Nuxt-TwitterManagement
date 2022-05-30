@@ -15,6 +15,7 @@ import Sidebar from '~/components/dashboard/sidebar.vue'
 import { useNav } from '~/composables/useNav'
 
 export default defineComponent({
+  name: 'Authenticated',
   components: { Sidebar },
   middleware: 'auth',
   setup() {
