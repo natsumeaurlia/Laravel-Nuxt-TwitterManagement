@@ -36,6 +36,13 @@ export default {
     '@nuxtjs/vuetify',
     '@nuxtjs/composition-api/module',
   ],
+  typescript: {
+    typeCheck: {
+      typescript: {
+        memoryLimit: parseInt(process.env.BUILD_MEMORY) || 1024,
+      },
+    },
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: ['@nuxtjs/axios', '@nuxtjs/auth-next', '@nuxtjs/dayjs'],
