@@ -1,5 +1,13 @@
 // 'twimg','vine','periscope','native_video'を除く。(サービス終了済みなど用途が限られるため)
-export const filters = ['links', 'verified', 'images', 'videos', 'media', 'news', 'safe'] as const
+export const filters = [
+  'links',
+  'verified',
+  'images',
+  'videos',
+  'media',
+  'news',
+  'safe',
+] as const
 
 type FilterValues = typeof filters[number]
 
