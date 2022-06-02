@@ -14,10 +14,10 @@ export class AccountRepository {
   }
 
   public store(
-    token: String,
-    tokenSecret: String,
-    consumer: String,
-    consumerSecret: String
+    token: string,
+    tokenSecret: string,
+    consumer: string,
+    consumerSecret: string
   ): Promise<AxiosResponse<Account>> {
     return this.axios.post<Account>('api/accounts', {
       accessToken: token,
@@ -27,7 +27,7 @@ export class AccountRepository {
     })
   }
 
-  public destroy(id: String) {
+  public destroy(id: string) {
     return this.axios.delete('api/accounts/' + id)
   }
 }

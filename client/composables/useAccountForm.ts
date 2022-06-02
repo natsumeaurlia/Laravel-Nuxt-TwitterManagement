@@ -1,10 +1,10 @@
 import { computed, reactive, SetupContext } from '@nuxtjs/composition-api'
 
 export interface TokenForm {
-  token?: String
-  tokenSecret?: String
-  consumerKey?: String
-  consumerSecret?: String
+  token?: string
+  tokenSecret?: string
+  consumerKey?: string
+  consumerSecret?: string
 }
 
 export const useAccountForm = () => {

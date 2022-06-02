@@ -1,5 +1,5 @@
 export interface Task {
-  id: String
-  name: String
+  id: string
+  name: string
   created_at: Date
 }

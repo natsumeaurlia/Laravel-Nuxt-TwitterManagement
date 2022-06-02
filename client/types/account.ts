@@ -1,14 +1,14 @@
 export interface Account {
-  id: String
-  name: String
-  screen_name: String
-  avatar_path: String
+  id: string
+  name: string
+  screen_name: string
+  avatar_path: string
   created_at: Date
 }
 
 export interface CreateAccountArg {
-  token: String
-  tokenSecret: String
-  consumerKey: String
-  consumerSecret: String
+  token: string
+  tokenSecret: string
+  consumerKey: string
+  consumerSecret: string
 }

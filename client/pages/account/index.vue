@@ -94,7 +94,7 @@ export default defineComponent({
       initializeForm()
     }
 
-    const onDelete = (id: String) => {
+    const onDelete = (id: string) => {
       store.dispatch('account/deleteAccount', id)
       deleteDialog.value = false
     }
