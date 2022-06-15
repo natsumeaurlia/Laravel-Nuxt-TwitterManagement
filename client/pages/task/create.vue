@@ -6,14 +6,14 @@
         <v-row>
           <v-col cols="12" sm="6">
             <h4>タスク名</h4>
-            <input-text v-model="form.taskName" />
+            <input-text v-model="task.taskName"/>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12" sm="6">
             <h4>実行アカウント</h4>
             <v-select
-              v-model="form.selectedAccount"
+              v-model="task.selectedAccount"
               :items="accountList"
               item-text="state"
               item-value="value"
@@ -24,7 +24,7 @@
           <v-col cols="12" sm="6">
             <h4>アクション</h4>
             <v-select
-              v-model="form.selectedAction"
+              v-model="task.selectedAction"
               :items="actions"
               item-text="state"
               item-value="value"
@@ -34,19 +34,42 @@
         <v-row>
           <v-col cols="12" sm="6">
             <h4>
-              キーワード
-              <v-tooltip top>
-                <template #activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon>mdi-help-circle</v-icon>
-                  </v-btn>
-                </template>
-                <span
-                  >入力したキーワードで検索を行い、<br />結果に対して指定のアクションを行います。</span
-                >
-              </v-tooltip>
+              アクション実行件数
+              <tooltip>1回の実行で、何件にアクションを行うか。<br>例:アクションがいいね、件数10の場合。1回の実行で10件にいいねを行う。</tooltip>
             </h4>
-            <input-text v-model="form.keyword" />
+            <div class="d-flex">
+              <input-text v-model="task.maxExecution" type="number" />
+            </div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="6">
+            <h4>
+              スリープ設定
+              <tooltip>1アクションごとにスリープを入れます。スリープを入れることによりBANの可能性を抑制します。</tooltip>
+            </h4>
+            <div class="d-flex">
+              <input-text v-model="task.minSleep" label="最小スリープ時間(秒)" type="number" />
+              <input-text v-model="task.maxSleep" label="最大スリープ時間(秒)" type="number" />
+            </div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="6">
+            <h4>実行時間帯</h4>
+            <div class="d-flex">
+              <dialog-time-picker v-model="task.startTimePeriod" label="開始時間帯" :max="task.endTimePeriod" />
+              <dialog-time-picker v-model="task.endTimePeriod" label="終了時間帯" :min="task.startTimePeriod" />
+            </div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="6">
+            <h4>
+              キーワード
+              <tooltip>入力したキーワードで検索を行い、<br/>結果に対して指定のアクションを行います。</tooltip>
+            </h4>
+            <input-text v-model="inputKeyword"/>
             <v-radio-group
               v-if="keywordSplit.length > 1"
               v-model="option.keywordType"
@@ -66,22 +89,13 @@
           expansion-wrapper-class="expansion"
           expansion-header-class="expansion__header"
         >
-          <template #expansion-header> 詳細設定を表示 </template>
+          <template #expansion-header> 詳細設定を表示</template>
           <template #expansion-content>
             <v-row>
               <v-col cols="12" sm="6">
                 <h5>
                   除外キーワード
-                  <v-tooltip top>
-                    <template #activator="{ on, attrs }">
-                      <v-btn icon v-bind="attrs" v-on="on">
-                        <v-icon>mdi-help-circle</v-icon>
-                      </v-btn>
-                    </template>
-                    <span
-                      >複数のキーワードを除外する場合、<br />半角スペースで空けてください。</span
-                    >
-                  </v-tooltip>
+                  <tooltip>複数のキーワードを除外する場合、<br/>半角スペースで空けてください。</tooltip>
                 </h5>
                 <input-text
                   v-model="option.excludeKey"
@@ -102,16 +116,7 @@
               <v-col cols="12" sm="6" md="6">
                 <h5>
                   アカウント
-                  <v-tooltip top>
-                    <template #activator="{ on, attrs }">
-                      <v-btn icon v-bind="attrs" v-on="on">
-                        <v-icon>mdi-help-circle</v-icon>
-                      </v-btn>
-                    </template>
-                    <span
-                      >複数のアカウントを指定する場合、<br />半角スペースで空けてください。</span
-                    >
-                  </v-tooltip>
+                    <tooltip>複数のアカウントを指定する場合、<br/>半角スペースで空けてください。</tooltip>
                 </h5>
                 <div class="d-flex flex-column">
                   <input-text
@@ -140,14 +145,16 @@
               <v-col cols="12" sm="6" md="6">
                 <h5>エンゲージメント</h5>
                 <div class="d-flex flex-column">
-                  <input-text v-model="option.minReply" label="最小返信数" />
+                  <input-text v-model="option.minReply" label="最小返信数" type="number"/>
                   <input-text
                     v-model="option.minFavorite"
                     label="いいねの最小件数"
+                    type="number"
                   />
                   <input-text
                     v-model="option.minRetweet"
                     label="リツイートの最小件数"
+                    type="number"
                   />
                 </div>
               </v-col>
@@ -161,7 +168,7 @@
                     class="mr-4"
                     label="次の日付以降"
                   />
-                  <date-input v-model="option.endDate" label="次の日付以前" />
+                  <date-input v-model="option.endDate" label="次の日付以前"/>
                 </div>
               </v-col>
               <v-col cols="12" sm="6" md="4">
@@ -188,6 +195,7 @@
             min-width="240px"
             color="primary"
             v-bind="size"
+            @click="onSubmit"
           >
             新規追加
           </v-btn>
@@ -200,9 +208,7 @@
 <script lang="ts">
 import {
   computed,
-  defineComponent,
-  reactive,
-  Ref,
+  defineComponent, useRouter,
   useStore,
 } from '@nuxtjs/composition-api'
 import { TaskType } from '~/types/taskType'
@@ -212,8 +218,8 @@ import {
   FilterOption,
   filters,
 } from '~/constant/twitterSearch'
-import { useKeyword } from '~/composables/useKeyword'
 import { useResponsiveButtonSize } from '~/composables/useResponsiveButtonSize'
+import { useTask } from "~/composables/useTask";
 
 interface Selectable {
   state: any
@@ -223,13 +229,6 @@ interface Selectable {
 interface Action {
   state: string
   value: TaskType | ''
-}
-
-interface Form {
-  taskName: string
-  selectedAction: TaskType | ''
-  selectedAccount: string | object
-  keyword: Ref<string>
 }
 
 export default defineComponent({
@@ -252,36 +251,39 @@ export default defineComponent({
     const description = filterDescription
     const { size } = useResponsiveButtonSize('md')
 
-    const {
-      keyword,
-      keyOption: option,
-      encodeOption,
-      splitBlank,
-    } = useKeyword()
-    const form = reactive<Form>({
-      taskName: '',
-      selectedAction: '',
-      selectedAccount: '',
-      keyword,
-    })
-    const keywordSplit = computed(() => splitBlank(form.keyword))
-    const submittable = computed(() => {
-      return Object.values(form).every((value) => Boolean(value))
-    })
+    const { task, submittable, inputKeyword, keyOption: option, splitBlank } = useTask();
+    const keywordSplit = computed(() => splitBlank(inputKeyword.value));
+
+    const $router = useRouter();
+
+    const onSubmit = () => {
+      // 保存
+      // const { $taskRepository } = useContext();
+      try {
+        $nuxt.$loading.start()
+        // await $taskRepository.store(task)
+        // $nuxt.$loading.finish()
+        $router.push('/task')
+      } catch (e) {
+        $nuxt.$loading.finish()
+        // 失敗時の処理
+      }
+    }
 
     return {
-      form,
+      task,
+      inputKeyword,
       filterOptions,
       description,
       actions,
       accountList,
       option,
-      encodeOption,
       keywordSplit,
       size,
       submittable,
+      onSubmit
     }
-  },
+  }
 })
 </script>
 

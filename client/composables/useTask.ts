@@ -1,6 +1,8 @@
 import { computed, reactive, ref } from '@nuxtjs/composition-api'
-import { YYYYMMDD } from '~/types/date'
-import { FilterOption } from '~/constant/twitterSearch'
+import { CreateTask } from '~/types/task'
+import { YYYYMMDD } from "~/types/date";
+import { FilterOption } from "~/constant/twitterSearch";
+
 
 interface Option {
   excludeKey: string
@@ -23,8 +25,8 @@ function splitBlank(text: string) {
   return replacedText.split(' ')
 }
 
-export const useKeyword = () => {
-  const keyword = ref('')
+export const useTask = () => {
+  const inputKeyword = ref('')
   const keyOption = reactive<Option>({
     excludeKey: '',
     keywordType: 'and',
@@ -41,14 +43,12 @@ export const useKeyword = () => {
     toAccount: '',
   })
 
-  const encodeOption = computed(() => {
-    let key = keyword.value.trim()
-    if (keyOption.keywordType === 'or') {
-      key = key
-        ? splitBlank(key)
-            .map((text) => `"${text}"`)
-            .join(' OR ')
-        : key
+  const encodedKey = computed(() => {
+    let key = inputKeyword.value.trim()
+    if (key && keyOption.keywordType === 'or') {
+      key = splitBlank(key)
+        .map((text) => `"${text}"`)
+        .join(' OR ')
     } else {
       key = key ? `"${key}"` : key
     }
@@ -96,5 +96,24 @@ export const useKeyword = () => {
 
     return key
   })
-  return { keyword, keyOption, encodeOption, splitBlank }
+
+  const task = reactive<CreateTask>({
+    taskName: '',
+    selectedAction: '',
+    selectedAccount: '',
+    keyword: encodedKey,
+    isEnable: true,
+    startTimePeriod: '10:00',
+    endTimePeriod: '19:00',
+    interval: 5,
+    maxExecution: 10,
+    minSleep: 1,
+    maxSleep: 10,
+  })
+
+  const submittable = computed(() => {
+    return Object.values(task).every((value) => Boolean(value))
+  })
+
+  return { task, submittable, inputKeyword, keyOption, splitBlank }
 }
