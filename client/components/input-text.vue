@@ -6,6 +6,7 @@
     outlined
     :placeholder="placeholder"
     :label="label"
+    :type="type"
     @input="$emit('input', $event)"
   >
     <template #label>
@@ -15,7 +16,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, PropType } from '@nuxtjs/composition-api'
+import { HTMLInputTypeAttribute } from "~/types/input";
 
 export default defineComponent({
   name: 'InputText',
@@ -33,6 +35,10 @@ export default defineComponent({
       type: String,
       required: false,
     },
+    type: {
+      type: String as PropType<HTMLInputTypeAttribute>,
+      default: 'text'
+    }
   },
 })
 </script>
