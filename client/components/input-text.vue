@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from '@nuxtjs/composition-api'
-import { HTMLInputTypeAttribute } from "~/types/input";
+import { HTMLInputTypeAttribute } from '~/types/input'
 
 export default defineComponent({
   name: 'InputText',
@@ -37,8 +37,8 @@ export default defineComponent({
     },
     type: {
       type: String as PropType<HTMLInputTypeAttribute>,
-      default: 'text'
-    }
+      default: 'text',
+    },
   },
 })
 </script>

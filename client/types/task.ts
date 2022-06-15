@@ -1,4 +1,4 @@
-import { ComputedRef } from "@nuxtjs/composition-api";
+import { ComputedRef } from '@nuxtjs/composition-api'
 import { TaskType } from '~/types/taskType'
 import { Hi } from '~/types/time'
 import { Account } from '~/types/account'

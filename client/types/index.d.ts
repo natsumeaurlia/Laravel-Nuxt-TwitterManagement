@@ -1,4 +1,4 @@
-import { NuxtApp } from "@nuxt/types/app";
+import { NuxtApp } from '@nuxt/types/app'
 import Vue from 'vue'
 
 declare global {

@@ -1,9 +1,5 @@
 <template>
-  <v-dialog
-    ref="dialog"
-    v-model="modal"
-    width="290px"
-  >
+  <v-dialog ref="dialog" v-model="modal" width="290px">
     <template #activator="{ on, attrs }">
       <v-text-field
         :label="label"
@@ -11,7 +7,7 @@
         readonly
         v-bind="attrs"
         :value="value"
-        :style="{width: computedWidth}"
+        :style="{ width: computedWidth }"
         @input="$emit('input', $event)"
         v-on="on"
       ></v-text-field>
@@ -25,30 +21,18 @@
       @input="$emit('input', $event)"
     >
       <v-spacer></v-spacer>
-      <v-btn
-        text
-        color="primary"
-        @click="modal = false"
-      >
-        Cancel
-      </v-btn>
-      <v-btn
-        text
-        color="primary"
-        @click="$refs.dialog.save(value)"
-      >
-        OK
-      </v-btn>
+      <v-btn text color="primary" @click="modal = false"> Cancel </v-btn>
+      <v-btn text color="primary" @click="$refs.dialog.save(value)"> OK </v-btn>
     </v-time-picker>
   </v-dialog>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "@nuxtjs/composition-api";
-import { Hi } from "~/types/time";
+import { computed, defineComponent, PropType } from '@nuxtjs/composition-api'
+import { Hi } from '~/types/time'
 
 export default defineComponent({
-  name: "DialogTimePicker",
+  name: 'DialogTimePicker',
   props: {
     value: String as PropType<Hi>,
     label: String,
@@ -58,12 +42,12 @@ export default defineComponent({
     },
     min: {
       type: String as PropType<Hi>,
-      required: false
+      required: false,
     },
     max: {
       type: String as PropType<Hi>,
-      required: false
-    }
+      required: false,
+    },
   },
   setup(props) {
     const computedWidth = computed(() => {
@@ -71,12 +55,10 @@ export default defineComponent({
     })
     return {
       modal: false,
-      computedWidth
+      computedWidth,
     }
-  }
+  },
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

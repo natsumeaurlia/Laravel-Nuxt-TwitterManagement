@@ -1,8 +1,7 @@
 import { computed, reactive, ref } from '@nuxtjs/composition-api'
 import { CreateTask } from '~/types/task'
-import { YYYYMMDD } from "~/types/date";
-import { FilterOption } from "~/constant/twitterSearch";
-
+import { YYYYMMDD } from '~/types/date'
+import { FilterOption } from '~/constant/twitterSearch'
 
 interface Option {
   excludeKey: string
