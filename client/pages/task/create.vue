@@ -208,7 +208,7 @@
 <script lang="ts">
 import {
   computed,
-  defineComponent, useRouter,
+  defineComponent, useContext, useRouter,
   useStore,
 } from '@nuxtjs/composition-api'
 import { TaskType } from '~/types/taskType'
@@ -255,14 +255,14 @@ export default defineComponent({
     const keywordSplit = computed(() => splitBlank(inputKeyword.value));
 
     const $router = useRouter();
+    const { $taskRepository } = useContext();
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
       // 保存
-      // const { $taskRepository } = useContext();
       try {
         $nuxt.$loading.start()
-        // await $taskRepository.store(task)
-        // $nuxt.$loading.finish()
+        await $taskRepository.store(task)
+        $nuxt.$loading.finish()
         $router.push('/task')
       } catch (e) {
         $nuxt.$loading.finish()
