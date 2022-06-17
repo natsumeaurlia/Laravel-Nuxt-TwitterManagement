@@ -1,17 +1,17 @@
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
 import { AxiosResponse } from 'axios'
-import { Account } from '~/types/account'
-import { CreateTask } from '~/types/task'
+import { CreateTask, Task } from '~/types/task'
 
 export class TaskRepository {
-  constructor(private readonly axios: NuxtAxiosInstance) {}
-
-  public fetchAll() {
-    return this.axios.get('api/tasks')
+  constructor(private readonly axios: NuxtAxiosInstance) {
   }
 
-  public store(form: CreateTask): Promise<AxiosResponse<Account>> {
-    return this.axios.post<Account>('api/tasks', {
+  public fetchAll(): Promise<AxiosResponse<Task[]>> {
+    return this.axios.get<Task[]>('api/tasks')
+  }
+
+  public store(form: CreateTask): Promise<AxiosResponse<Task>> {
+    return this.axios.post<Task>('api/tasks', {
       account_id: form.selectedAccount,
       name: form.taskName,
       type: form.selectedAction,
@@ -24,5 +24,9 @@ export class TaskRepository {
       range_min_sleep_time: form.minSleep,
       range_max_sleep_time: form.minSleep,
     })
+  }
+
+  public destroy(id: string) {
+    return this.axios.delete('api/tasks/' + id)
   }
 }
