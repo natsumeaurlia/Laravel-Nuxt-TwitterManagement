@@ -8,17 +8,6 @@
       @submit="onSubmit"
       @close="createDialog = false"
     />
-    <confirm-dialog :show="deleteDialog" @close="deleteDialog = false">
-      <template #title>アカウントを削除してよろしいですか？</template>
-      <template #actions>
-        <v-btn color="blue darken-1" text @click="deleteDialog = false"
-          >Cancel</v-btn
-        >
-        <v-btn color="red darken-1" text @click="onDelete(targetAccountId)"
-          >OK</v-btn
-        >
-      </template>
-    </confirm-dialog>
 
     <div class="mt-8" />
     <v-data-table
@@ -36,16 +25,20 @@
         </v-toolbar>
       </template>
       <template #no-data> アカウントがありません。</template>
-      <template #item.action="{ item }">
+      <template #item.delete="{ item }">
         <v-icon
           small
-          @click="
-            deleteDialog = true
-            targetAccountId = item.id
-          "
+          @click="deleteDialog = true"
         >
           mdi-delete
         </v-icon>
+        <confirm-dialog :show="deleteDialog" @close="deleteDialog = false">
+          <template #title>アカウントを削除してよろしいですか？</template>
+          <template #actions>
+            <v-btn color="blue darken-1" text @click="deleteDialog = false">Cancel</v-btn>
+            <v-btn color="red darken-1" text @click="onDelete(item.id)">OK</v-btn>
+          </template>
+        </confirm-dialog>
       </template>
     </v-data-table>
   </div>
@@ -71,12 +64,11 @@ export default defineComponent({
   setup() {
     const createDialog = ref<Boolean>(false)
     const deleteDialog = ref<Boolean>(false)
-    const targetAccountId = ref<String>('')
 
     const headers = [
       { text: 'name', value: 'name' },
       { text: 'screen name', value: 'screen_name' },
-      { text: 'Action', value: 'action' },
+      { text: '削除', value: 'delete' },
     ]
 
     const store = useStore<AccountStore>()
@@ -102,7 +94,6 @@ export default defineComponent({
     return {
       createDialog,
       deleteDialog,
-      targetAccountId,
       accounts,
       headers,
       canSubmit,
