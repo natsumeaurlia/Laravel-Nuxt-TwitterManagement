@@ -275,8 +275,8 @@ export default defineComponent({
     ]
     const store = useStore<StoreType>()
     const accountList = computed(() =>
-      store.state.account.accounts.map((account) => {
-        return { state: account.name, value: account.id } as Selectable
+      store.state.account.accounts.map((account): Selectable => {
+        return { state: account.name, value: account.id }
       })
     )
     const filterOptions: FilterOption = filters
@@ -284,13 +284,15 @@ export default defineComponent({
     const { size } = useResponsiveButtonSize('md')
 
     const {
-      task,
-      submittable,
+      makeTask,
+      canSubmit,
       inputKeyword,
       keyOption: option,
       splitBlank,
     } = useTask()
     const keywordSplit = computed(() => splitBlank(inputKeyword.value))
+    const task = makeTask();
+    const submittable = canSubmit(task)
 
     const $router = useRouter()
     const { $taskRepository } = useContext()

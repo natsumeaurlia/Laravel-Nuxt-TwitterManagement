@@ -1,5 +1,5 @@
 import { computed, reactive, ref } from '@nuxtjs/composition-api'
-import { CreateTask } from '~/types/task'
+import { Task, TaskForm } from '~/types/task'
 import { YYYYMMDD } from '~/types/date'
 import { FilterOption } from '~/constant/twitterSearch'
 
@@ -96,7 +96,16 @@ export const useTask = () => {
     return key
   })
 
-  const task = reactive<CreateTask>({
+  const decodeKeyword = (keyword: string) => {
+    // const splitKeyword = keyword.split(' ')
+    // splitKeyword.forEach((value) => {
+    //   keyOption.toAccount = value.includes('to:') ? value.replace('to:') : txt
+    // })
+    // console.log(splitKeyword)
+    return keyword
+  }
+
+  const defaultTask: TaskForm = {
     taskName: '',
     selectedAction: '',
     selectedAccount: '',
@@ -108,11 +117,53 @@ export const useTask = () => {
     maxExecution: 10,
     minSleep: 1,
     maxSleep: 10,
-  })
+  }
+  const convertTaskToFormFormat = (task: Task) => {
+    return reactive<TaskForm>({
+      taskName: task.name,
+      selectedAction: task.type,
+      selectedAccount: task.account.id,
+      keyword: decodeKeyword(task.keyword),
+      isEnable: task.is_enable,
+      startTimePeriod: task.start_time_period,
+      endTimePeriod: task.end_time_period,
+      interval: task.execution_interval,
+      minSleep: task.range_min_sleep_time,
+      maxSleep: task.range_max_sleep_time,
+      maxExecution: task.max_execution
+    })
+  }
+  const makeTask = ({
+                      taskName,
+                      selectedAction,
+                      selectedAccount,
+                      keyword,
+                      isEnable,
+                      startTimePeriod,
+                      endTimePeriod,
+                      interval,
+                      maxExecution,
+                      minSleep,
+                      maxSleep
+                    } = defaultTask) => {
+    return reactive<TaskForm>({
+      taskName,
+      selectedAction,
+      selectedAccount,
+      keyword,
+      isEnable,
+      startTimePeriod,
+      endTimePeriod,
+      interval,
+      maxExecution,
+      minSleep,
+      maxSleep
+    });
+  }
 
-  const submittable = computed(() => {
+  const canSubmit = (task: TaskForm) => computed(() => {
     return Object.values(task).every((value) => Boolean(value))
   })
 
-  return { task, submittable, inputKeyword, keyOption, splitBlank }
+  return { makeTask, canSubmit, convertTaskToFormFormat, inputKeyword, keyOption, splitBlank }
 }
