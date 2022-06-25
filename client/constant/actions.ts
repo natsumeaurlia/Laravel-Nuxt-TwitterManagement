@@ -1,4 +1,4 @@
-import { TaskType } from "~/types/taskType";
+import { TaskType } from '~/types/taskType'
 
 interface Action {
   state: string

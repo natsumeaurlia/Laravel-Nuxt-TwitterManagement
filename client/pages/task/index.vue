@@ -17,30 +17,24 @@
       </template>
       <template #no-data>タスクがありません。</template>
       <template #item.is_enable="{ item }">
-        <v-switch
-          v-model="item.is_enable"
-        />
+        <v-switch v-model="item.is_enable" />
       </template>
       <template #item.edit="{ item }">
-        <v-icon
-          small
-          @click="$nuxt.$router.push(`/task/${item.id}`)"
-        >
+        <v-icon small @click="$nuxt.$router.push(`/task/${item.id}`)">
           mdi-pencil
         </v-icon>
       </template>
       <template #item.delete="{ item }">
-        <v-icon
-          small
-          @click="deleteDialog = true"
-        >
-          mdi-delete
-        </v-icon>
+        <v-icon small @click="deleteDialog = true"> mdi-delete </v-icon>
         <confirm-dialog :show="deleteDialog" @close="deleteDialog = false">
           <template #title>タスクを削除してよろしいですか？</template>
           <template #actions>
-            <v-btn color="blue darken-1" text @click="deleteDialog = false">Cancel</v-btn>
-            <v-btn color="red darken-1" text @click="deleteTask(item)">OK</v-btn>
+            <v-btn color="blue darken-1" text @click="deleteDialog = false"
+              >Cancel</v-btn
+            >
+            <v-btn color="red darken-1" text @click="deleteTask(item)"
+              >OK</v-btn
+            >
           </template>
         </confirm-dialog>
       </template>
@@ -49,18 +43,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useContext, useFetch } from '@nuxtjs/composition-api'
-import { Task } from "~/types/task";
+import {
+  defineComponent,
+  ref,
+  useContext,
+  useFetch,
+} from '@nuxtjs/composition-api'
+import { Task } from '~/types/task'
 
 export default defineComponent({
   components: {},
   layout: 'authenticated',
   setup() {
-    const tasks = ref<Task[] | []>([]);
+    const tasks = ref<Task[] | []>([])
     const deleteDialog = ref<Boolean>(false)
-    const { $taskRepository } = useContext();
+    const { $taskRepository } = useContext()
     const { fetch } = useFetch(async () => {
-      const { data } = await $taskRepository.fetchAll();
+      const { data } = await $taskRepository.fetchAll()
       tasks.value = data
     })
     const headers = [
@@ -77,11 +76,9 @@ export default defineComponent({
     const deleteTask = (task: Task) => {
       try {
         $taskRepository.destroy(task.id)
-        fetch();
-      }catch (e) {
-
-      }
-      deleteDialog.value = false;
+        fetch()
+      } catch (e) {}
+      deleteDialog.value = false
     }
     // Access fetch error, pending and timestamp
     return { tasks, headers, deleteDialog, deleteTask }

@@ -135,13 +135,14 @@ export const useTask = () => {
       interval: obj.execution_interval,
       minSleep: obj.range_min_sleep_time,
       maxSleep: obj.range_max_sleep_time,
-      maxExecution: obj.max_execution
+      maxExecution: obj.max_execution,
     })
   }
 
-  const canSubmit = (task: TaskForm) => computed(() => {
-    return Object.values(task).every((value) => Boolean(value))
-  })
+  const canSubmit = (task: TaskForm) =>
+    computed(() => {
+      return Object.values(task).every((value) => Boolean(value))
+    })
 
   return { makeTask, canSubmit, inputKeyword, keyOption, splitBlank }
 }

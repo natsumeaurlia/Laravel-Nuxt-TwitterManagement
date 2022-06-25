@@ -2,18 +2,19 @@
   <div class="">
     <h1>定期タスク新規作成</h1>
     <v-card class="mx-auto px-12 py-12 my-12">
-        <task-make-form v-if="task" :task="task" />
+      <task-make-form v-if="task" :task="task" />
     </v-card>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  defineComponent, ref,
-  useContext, useFetch,
+  defineComponent,
+  ref,
+  useContext,
+  useFetch,
 } from '@nuxtjs/composition-api'
 import { useTask } from '~/composables/useTask'
-
 
 export default defineComponent({
   components: {},
@@ -22,13 +23,13 @@ export default defineComponent({
   setup() {
     const { params } = useContext()
     const { makeTask } = useTask()
-    const task = ref();
+    const task = ref()
     const { $taskRepository } = useContext()
 
     useFetch(async () => {
-      const { data } = await $taskRepository.fetch(params.value.id);
+      const { data } = await $taskRepository.fetch(params.value.id)
       if (data) {
-        task.value = makeTask(data);
+        task.value = makeTask(data)
       }
     })
     return { task }

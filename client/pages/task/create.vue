@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext, useRouter, } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, useRouter } from '@nuxtjs/composition-api'
 import { useTask } from '~/composables/useTask'
 
 export default defineComponent({
@@ -31,11 +31,8 @@ export default defineComponent({
   layout: 'authenticated',
   middleware: 'fetchAccounts',
   setup() {
-    const {
-      makeTask,
-      canSubmit,
-    } = useTask()
-    const task = makeTask();
+    const { makeTask, canSubmit } = useTask()
+    const task = makeTask()
     const submittable = canSubmit(task)
 
     const $router = useRouter()

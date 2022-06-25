@@ -26,17 +26,16 @@
       </template>
       <template #no-data> アカウントがありません。</template>
       <template #item.delete="{ item }">
-        <v-icon
-          small
-          @click="deleteDialog = true"
-        >
-          mdi-delete
-        </v-icon>
+        <v-icon small @click="deleteDialog = true"> mdi-delete </v-icon>
         <confirm-dialog :show="deleteDialog" @close="deleteDialog = false">
           <template #title>アカウントを削除してよろしいですか？</template>
           <template #actions>
-            <v-btn color="blue darken-1" text @click="deleteDialog = false">Cancel</v-btn>
-            <v-btn color="red darken-1" text @click="onDelete(item.id)">OK</v-btn>
+            <v-btn color="blue darken-1" text @click="deleteDialog = false"
+              >Cancel</v-btn
+            >
+            <v-btn color="red darken-1" text @click="onDelete(item.id)"
+              >OK</v-btn
+            >
           </template>
         </confirm-dialog>
       </template>
