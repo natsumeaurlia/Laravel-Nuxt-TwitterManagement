@@ -227,7 +227,6 @@ import { computed, defineComponent, PropType, useStore } from "@nuxtjs/compositi
 import { TaskForm, Task } from "~/types/task";
 import { StoreType } from "~/store/account";
 import { filterDescription, FilterOption, filters } from "~/constant/twitterSearch";
-import { useResponsiveButtonSize } from "~/composables/useResponsiveButtonSize";
 import { useTask } from "~/composables/useTask";
 import { actions } from "~/constant/actions";
 
@@ -254,10 +253,10 @@ export default defineComponent({
     )
     const filterOptions: FilterOption = filters
     const description = filterDescription
-    const { size } = useResponsiveButtonSize('md')
 
     const { inputKeyword, splitBlank, keyOption: option } = useTask()
     const k = props.task.keyword as string;
+    inputKeyword.value = k;
     const keywordSplit = computed(() => splitBlank(k))
 
     return {
@@ -268,7 +267,6 @@ export default defineComponent({
       accountList,
       option,
       keywordSplit,
-      size,
     }
   }
 })
