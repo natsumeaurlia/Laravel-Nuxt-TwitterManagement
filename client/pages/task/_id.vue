@@ -21,14 +21,14 @@ export default defineComponent({
   middleware: 'fetchAccounts',
   setup() {
     const { params } = useContext()
-    const { convertTaskToFormFormat } = useTask()
+    const { makeTask } = useTask()
     const task = ref();
     const { $taskRepository } = useContext()
 
     useFetch(async () => {
       const { data } = await $taskRepository.fetch(params.value.id);
       if (data) {
-        task.value = convertTaskToFormFormat(data);
+        task.value = makeTask(data);
       }
     })
     return { task }

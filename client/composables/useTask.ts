@@ -118,52 +118,30 @@ export const useTask = () => {
     minSleep: 1,
     maxSleep: 10,
   }
-  const convertTaskToFormFormat = (task: Task) => {
+
+  const makeTask = (obj: Task | null = null) => {
+    if (!obj) {
+      return reactive<TaskForm>(defaultTask)
+    }
+
     return reactive<TaskForm>({
-      taskName: task.name,
-      selectedAction: task.type,
-      selectedAccount: task.account.id,
-      keyword: decodeKeyword(task.keyword),
-      isEnable: task.is_enable,
-      startTimePeriod: task.start_time_period,
-      endTimePeriod: task.end_time_period,
-      interval: task.execution_interval,
-      minSleep: task.range_min_sleep_time,
-      maxSleep: task.range_max_sleep_time,
-      maxExecution: task.max_execution
+      taskName: obj.name,
+      selectedAction: obj.type,
+      selectedAccount: obj.account.id,
+      keyword: obj.keyword,
+      isEnable: obj.is_enable,
+      startTimePeriod: obj.start_time_period,
+      endTimePeriod: obj.end_time_period,
+      interval: obj.execution_interval,
+      minSleep: obj.range_min_sleep_time,
+      maxSleep: obj.range_max_sleep_time,
+      maxExecution: obj.max_execution
     })
-  }
-  const makeTask = ({
-                      taskName,
-                      selectedAction,
-                      selectedAccount,
-                      keyword,
-                      isEnable,
-                      startTimePeriod,
-                      endTimePeriod,
-                      interval,
-                      maxExecution,
-                      minSleep,
-                      maxSleep
-                    } = defaultTask) => {
-    return reactive<TaskForm>({
-      taskName,
-      selectedAction,
-      selectedAccount,
-      keyword,
-      isEnable,
-      startTimePeriod,
-      endTimePeriod,
-      interval,
-      maxExecution,
-      minSleep,
-      maxSleep
-    });
   }
 
   const canSubmit = (task: TaskForm) => computed(() => {
     return Object.values(task).every((value) => Boolean(value))
   })
 
-  return { makeTask, canSubmit, convertTaskToFormFormat, inputKeyword, keyOption, splitBlank }
+  return { makeTask, canSubmit, inputKeyword, keyOption, splitBlank }
 }
